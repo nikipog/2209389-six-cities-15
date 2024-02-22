@@ -11,7 +11,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.(js|jsx|tsx)": ["npm run lint:write", "git add"]
+    "*.(js|jsx|tsx)": ["npm run lint:write"]
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.9.7",
