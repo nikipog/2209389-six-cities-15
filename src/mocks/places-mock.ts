@@ -115,3 +115,5 @@ const placesMock = [
     rating: 4.6
   },
 ];
+
+export default placesMock;
