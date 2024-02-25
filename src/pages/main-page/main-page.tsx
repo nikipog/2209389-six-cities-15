@@ -3,6 +3,11 @@ import HeaderComponent from '../../components/header-component/header-component'
 import MapComponent from '../../components/map-component/map-component';
 import CitiesPlacesListComponent from '../../components/cities-places-list-component/cities-places-list-component';
 import PlacesCounterComponent from '../../components/places-counter-component/places-counter-component';
+import SixCitiesListComponent from '../../components/six-cities-list-component/six-cities-list-component';
+import PlacesOptionsComponent from '../../components/places-options-component/places-options-component';
+import { CITIES, PLACES_OPTIONS } from '../../const';
+
+const PLACE_CARDS_COUNT = 5;
 
 type MainPageProps = {
   placesToStay: number;
@@ -19,36 +24,7 @@ function MainPage ({placesToStay}: MainPageProps) : JSX.Element {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
+              {CITIES.map((city) => <SixCitiesListComponent city = {city} key = {city}/>)}
             </ul>
           </section>
         </div>
@@ -66,18 +42,14 @@ function MainPage ({placesToStay}: MainPageProps) : JSX.Element {
                   </svg>
                 </span>
                 <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
+
+                  {PLACES_OPTIONS.map((option) => <PlacesOptionsComponent option = {option} key = {option} />)}
                 </ul>
               </form>
-              <CitiesPlacesListComponent >
-                <PlaceCardComponent className='cities__card'/>
-                <PlaceCardComponent className='cities__card'/>
-                <PlaceCardComponent className='cities__card'/>
-                <PlaceCardComponent className='cities__card'/>
-                <PlaceCardComponent className='cities__card'/>
+              <CitiesPlacesListComponent>
+                {Array.from({ length: PLACE_CARDS_COUNT }).map(() => (
+                  <PlaceCardComponent key={crypto.randomUUID()} className='cities__card' />
+                ))}
               </CitiesPlacesListComponent>
             </section>
             <MapComponent/>

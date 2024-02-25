@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app-component/app-component.tsx';
-import Settings from './const';
+import { Settings } from './const';
 
 
 const root = ReactDOM.createRoot(
