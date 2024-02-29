@@ -1,4 +1,4 @@
-function MapComponent () : JSX.Element {
+function Map () : JSX.Element {
   return (
     <div className="cities__right-section">
       <section className="cities__map map"></section>
@@ -6,5 +6,5 @@ function MapComponent () : JSX.Element {
   );
 }
 
-export default MapComponent;
+export default Map;
 

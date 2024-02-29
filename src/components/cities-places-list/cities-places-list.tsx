@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-function CitiesPlacesListComponent ({children} : {children : ReactNode}) : JSX.Element {
+function CitiesPlacesList ({children} : {children : ReactNode}) : JSX.Element {
   return (
     <div className="cities__places-list places__list tabs__content">
       {children}
@@ -8,4 +8,4 @@ function CitiesPlacesListComponent ({children} : {children : ReactNode}) : JSX.E
   );
 }
 
-export default CitiesPlacesListComponent;
+export default CitiesPlacesList;

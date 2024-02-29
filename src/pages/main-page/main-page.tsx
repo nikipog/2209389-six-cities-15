@@ -1,10 +1,10 @@
-import PlaceCardComponent from '../../components/place-card-component/place-card-component';
-import HeaderComponent from '../../components/header-component/header-component';
-import MapComponent from '../../components/map-component/map-component';
-import CitiesPlacesListComponent from '../../components/cities-places-list-component/cities-places-list-component';
-import PlacesCounterComponent from '../../components/places-counter-component/places-counter-component';
-import SixCitiesListComponent from '../../components/six-cities-list-component/six-cities-list-component';
-import PlacesOptionsComponent from '../../components/places-options-component/places-options-component';
+import PlaceCardComponent from '../../components/place-card/place-card';
+import Header from '../../components/header/header';
+import Map from '../../components/map/map';
+import CitiesPlacesList from '../../components/cities-places-list/cities-places-list';
+import PlacesCounter from '../../components/places-counter/places-counter';
+import SixCitiesList from '../../components/six-cities-list/six-cities-list';
+import PlacesOptions from '../../components/places-options/places-options';
 import { CITIES, PLACES_OPTIONS } from '../../const';
 
 const PLACE_CARDS_COUNT = 5;
@@ -17,14 +17,14 @@ function MainPage ({placesToStay}: MainPageProps) : JSX.Element {
   return (
     <div className="page page--gray page--main">
 
-      <HeaderComponent/>
+      <Header/>
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              {CITIES.map((city) => <SixCitiesListComponent city = {city} key = {city}/>)}
+              {CITIES.map((city) => <SixCitiesList city = {city} key = {city}/>)}
             </ul>
           </section>
         </div>
@@ -32,7 +32,7 @@ function MainPage ({placesToStay}: MainPageProps) : JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <PlacesCounterComponent placesToStay = {placesToStay}/>
+              <PlacesCounter placesToStay = {placesToStay}/>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -43,16 +43,16 @@ function MainPage ({placesToStay}: MainPageProps) : JSX.Element {
                 </span>
                 <ul className="places__options places__options--custom places__options--opened">
 
-                  {PLACES_OPTIONS.map((option) => <PlacesOptionsComponent option = {option} key = {option} />)}
+                  {PLACES_OPTIONS.map((option) => <PlacesOptions option = {option} key = {option} />)}
                 </ul>
               </form>
-              <CitiesPlacesListComponent>
+              <CitiesPlacesList>
                 {Array.from({ length: PLACE_CARDS_COUNT }).map(() => (
                   <PlaceCardComponent key={crypto.randomUUID()} className='cities__card' />
                 ))}
-              </CitiesPlacesListComponent>
+              </CitiesPlacesList>
             </section>
-            <MapComponent/>
+            <Map/>
 
           </div>
         </div>

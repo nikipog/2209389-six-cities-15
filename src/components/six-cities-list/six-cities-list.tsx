@@ -1,4 +1,4 @@
-function SixCitiesListComponent ({city} : {city : string}) : JSX.Element {
+function SixCitiesList ({city} : {city : string}) : JSX.Element {
   return (
     <li className="locations__item">
       <a className="locations__item-link tabs__item" href="#">
@@ -8,5 +8,5 @@ function SixCitiesListComponent ({city} : {city : string}) : JSX.Element {
   );
 }
 
-export default SixCitiesListComponent;
+export default SixCitiesList;
 
