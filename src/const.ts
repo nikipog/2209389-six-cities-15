@@ -1,8 +1,23 @@
-export const Settings = {
+const Settings = {
   PlacesToStayCount: 312
 } as const;
 
-export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
-export const PLACES_OPTIONS = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+const PLACES_OPTIONS = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+
+const FACILITIES_INSIDE_PLACE = [
+  'Washing machine',
+  'Towels',
+  'Heating',
+  'Coffee machine',
+  'Baby seat',
+  'Kitchen',
+  'Dishwasher',
+  'Cable TV',
+  'Fridge',
+  'Wi-Fi',
+];
+
+export {Settings, CITIES, PLACES_OPTIONS, FACILITIES_INSIDE_PLACE };
 
