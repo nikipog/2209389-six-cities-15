@@ -1,4 +1,4 @@
-import PlaceCardComponent from '../../components/place-card/place-card';
+import PlaceCard from '../../components/place-card/place-card';
 import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import CitiesPlacesList from '../../components/cities-places-list/cities-places-list';
@@ -48,7 +48,7 @@ function MainPage ({placesToStay}: MainPageProps) : JSX.Element {
               </form>
               <CitiesPlacesList>
                 {Array.from({ length: PLACE_CARDS_COUNT }).map(() => (
-                  <PlaceCardComponent key={crypto.randomUUID()} className='cities__card' />
+                  <PlaceCard key={crypto.randomUUID()} className='cities__card' />
                 ))}
               </CitiesPlacesList>
             </section>

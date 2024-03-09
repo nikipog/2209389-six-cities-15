@@ -26,6 +26,11 @@ enum AppRoute {
   Offer = '/offer/:id'
 }
 
+enum AuthorizationStatus {
+  Auth ='Auth',
+  NoAuth = 'NoAuth',
+  Unknown = 'Unknown'
+}
 
-export {Settings, CITIES, PLACES_OPTIONS, FACILITIES_INSIDE_PLACE, AppRoute };
+export {Settings, CITIES, PLACES_OPTIONS, FACILITIES_INSIDE_PLACE, AppRoute, AuthorizationStatus };
 
