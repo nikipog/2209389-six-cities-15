@@ -4,9 +4,10 @@ import LoginPage from '../../pages/login-page/login-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
+import { getAuthorizationStatus } from '../../mocks/authorization-status';
 //импорты из библиотек желательно расположить в самом начале
 
 type AppPageProps = {
@@ -14,6 +15,7 @@ type AppPageProps = {
 }
 
 function App({placesToStay}: AppPageProps): JSX.Element {
+  const authorizationStatus = getAuthorizationStatus();
   return (
     <BrowserRouter>
       <Routes>
@@ -27,12 +29,17 @@ function App({placesToStay}: AppPageProps): JSX.Element {
           />
           <Route
             path={AppRoute.Login}
-            element={<LoginPage/>}
+            element={(
+              <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
+                <LoginPage/>
+              </PrivateRoute>
+            )}
+
           />
           <Route
             path={AppRoute.Favorites}
             element={(
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+              <PrivateRoute authorizationStatus={authorizationStatus}>
                 <FavoritesPage/>
               </PrivateRoute>
             )}
