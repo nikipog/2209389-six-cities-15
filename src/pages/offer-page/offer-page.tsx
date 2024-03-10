@@ -5,11 +5,14 @@ import PlaceReview from '../../components/place-review/place-review';
 import PlaceRating from '../../components/place-rating/place-rating';
 import PlaceCard from '../../components/place-card/place-card';
 import NearPlacesList from '../../components/near-places-list/near-places-list';
+import { getAuthorizationStatus } from '../../mocks/authorization-status';
+import { AuthorizationStatus } from '../../const';
 
 const IMAGES_COUNT = 6;
 const PLACE_CARDS_COUNT = 3;
 
 function OfferPage() : JSX.Element {
+  const authorizationStatus = getAuthorizationStatus();
   return (
     <main className="page__main page__main--offer">
       <section className="offer">
@@ -94,34 +97,38 @@ function OfferPage() : JSX.Element {
               Reviews · <span className="reviews__amount">1</span>
               </h2>
               <PlaceReview/>
-              <form className="reviews__form form" action="#" method="post">
-                <label className="reviews__label form__label" htmlFor="review">
+              {
+                authorizationStatus === AuthorizationStatus.Auth ? (
+                  <form className="reviews__form form" action="#" method="post">
+                    <label className="reviews__label form__label" htmlFor="review">
                 Your review
-                </label>
-                <PlaceRating/>
-                <textarea
-                  className="reviews__textarea form__textarea"
-                  id="review"
-                  name="review"
-                  placeholder="Tell how was your stay, what you like and what can be improved"
-                  defaultValue={''}
-                />
-                <div className="reviews__button-wrapper">
-                  <p className="reviews__help">
+                    </label>
+                    <PlaceRating/>
+                    <textarea
+                      className="reviews__textarea form__textarea"
+                      id="review"
+                      name="review"
+                      placeholder="Tell how was your stay, what you like and what can be improved"
+                      defaultValue={''}
+                    />
+                    <div className="reviews__button-wrapper">
+                      <p className="reviews__help">
                   To submit review please make sure to set{' '}
-                    <span className="reviews__star">rating</span> and describe
+                        <span className="reviews__star">rating</span> and describe
                   your stay with at least{' '}
-                    <b className="reviews__text-amount">50 characters</b>.
-                  </p>
-                  <button
-                    className="reviews__submit form__submit button"
-                    type="submit"
-                    disabled
-                  >
+                        <b className="reviews__text-amount">50 characters</b>.
+                      </p>
+                      <button
+                        className="reviews__submit form__submit button"
+                        type="submit"
+                        disabled
+                      >
                   Submit
-                  </button>
-                </div>
-              </form>
+                      </button>
+                    </div>
+                  </form>
+                ) : null
+              }
             </section>
           </div>
         </div>
