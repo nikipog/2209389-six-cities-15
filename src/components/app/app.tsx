@@ -6,6 +6,7 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../private-route/private-route';
+import Layout from '../layout/layout';
 //импорты из библиотек желательно расположить в самом начале
 
 type AppPageProps = {
@@ -18,31 +19,34 @@ function App({placesToStay}: AppPageProps): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainPage placesToStay = {placesToStay}/>}
-        />
-        <Route
-          path={AppRoute.Login}
-          element={<LoginPage/>}
-        />
-        <Route
-          path={AppRoute.Favorites}
-          element={(
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <FavoritesPage/>
-            </PrivateRoute>
-          )}
-        />
-        <Route
-          path={AppRoute.Offer}
-          element={<OfferPage/>}
-        />
-        <Route
-          path='*'
-          element={<NotFoundPage/>}
-        />
-
+          element={<Layout/>}
+        >
+          <Route
+            index
+            element={<MainPage placesToStay = {placesToStay}/>}
+          />
+          <Route
+            path={AppRoute.Login}
+            element={<LoginPage/>}
+          />
+          <Route
+            path={AppRoute.Favorites}
+            element={(
+              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+                <FavoritesPage/>
+              </PrivateRoute>
+            )}
+          />
+          <Route
+            path={AppRoute.Offer}
+            element={<OfferPage/>}
+          />
+          <Route
+            path='*'
+            element={<NotFoundPage/>}
+          />
+        </Route>
       </Routes>
-
     </BrowserRouter>
 
   );
