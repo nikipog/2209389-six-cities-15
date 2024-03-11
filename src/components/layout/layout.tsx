@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { getAuthorizationStatus } from '../../mocks/authorization-status';
 import { getLayoutState } from './utils';
@@ -14,16 +14,22 @@ export default function Layout () {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className={`header__logo-link ${linkClassName}`}>
+              <Link
+                className={`header__logo-link ${linkClassName}`}
+                to={AppRoute.Main}
+              >
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </a>
+              </Link>
             </div>
             {
               shouldRenderUser ? (
                 <nav className="header__nav">
                   <ul className="header__nav-list">
                     <li className="header__nav-item user">
-                      <a className="header__nav-link header__nav-link--profile" href="#">
+                      <Link
+                        className="header__nav-link header__nav-link--profile"
+                        to={AppRoute.Favorites}
+                      >
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>
                         {
@@ -34,14 +40,17 @@ export default function Layout () {
                             </>
                           ) : <span className="header__login">Sign in</span>
                         }
-                      </a>
+                      </Link>
                     </li>
                     {
                       authorizationStatus === AuthorizationStatus.Auth ? (
                         <li className="header__nav-item">
-                          <a className="header__nav-link" href="#">
+                          <Link
+                            className="header__nav-link"
+                            to={AppRoute.Main}
+                          >
                             <span className="header__signout">Sign out</span>
-                          </a>
+                          </Link>
                         </li>
                       ) : null
                     }
@@ -56,9 +65,12 @@ export default function Layout () {
       {
         shouldRenderFooter ? (
           <footer className="footer">
-            <a className="footer__logo-link" href="main.html">
+            <Link
+              className="footer__logo-link"
+              to={AppRoute.Main}
+            >
               <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
-            </a>
+            </Link>
           </footer>
         ) : null
       }

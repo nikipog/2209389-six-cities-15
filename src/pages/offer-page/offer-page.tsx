@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import PlaceGalleryContainer from '../../components/place-gallery-container/place-gallery-container';
 import PlaceImage from '../../components/place-image/place-image';
 import FacilitiesInsidePlace from '../../components/facilities-inside-place/facilities-inside-place';
@@ -15,6 +16,9 @@ function OfferPage() : JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
   return (
     <main className="page__main page__main--offer">
+      <Helmet>
+        <title>6 Cities. Offer</title>
+      </Helmet>
       <section className="offer">
         <div className="offer__gallery-container container">
           <PlaceGalleryContainer>

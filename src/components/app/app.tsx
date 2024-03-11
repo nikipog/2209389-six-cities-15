@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import MainPage from '../../pages/main-page/main-page';
 import LoginPage from '../../pages/login-page/login-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
@@ -17,45 +18,46 @@ type AppPageProps = {
 function App({placesToStay}: AppPageProps): JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path={AppRoute.Main}
-          element={<Layout/>}
-        >
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
           <Route
-            index
-            element={<MainPage placesToStay = {placesToStay}/>}
-          />
-          <Route
-            path={AppRoute.Login}
-            element={(
-              <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
-                <LoginPage/>
-              </PrivateRoute>
-            )}
+            path={AppRoute.Main}
+            element={<Layout/>}
+          >
+            <Route
+              index
+              element={<MainPage placesToStay = {placesToStay}/>}
+            />
+            <Route
+              path={AppRoute.Login}
+              element={(
+                <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
+                  <LoginPage/>
+                </PrivateRoute>
+              )}
 
-          />
-          <Route
-            path={AppRoute.Favorites}
-            element={(
-              <PrivateRoute authorizationStatus={authorizationStatus}>
-                <FavoritesPage/>
-              </PrivateRoute>
-            )}
-          />
-          <Route
-            path={AppRoute.Offer}
-            element={<OfferPage/>}
-          />
+            />
+            <Route
+              path={AppRoute.Favorites}
+              element={(
+                <PrivateRoute authorizationStatus={authorizationStatus}>
+                  <FavoritesPage/>
+                </PrivateRoute>
+              )}
+            />
+            <Route
+              path={AppRoute.Offer}
+              element={<OfferPage/>}
+            />
+          </Route>
           <Route
             path='*'
             element={<NotFoundPage/>}
           />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 

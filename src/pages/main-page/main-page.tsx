@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import PlaceCard from '../../components/place-card/place-card';
 import Map from '../../components/map/map';
 import CitiesPlacesList from '../../components/cities-places-list/cities-places-list';
@@ -15,6 +16,9 @@ type MainPageProps = {
 function MainPage ({placesToStay}: MainPageProps) : JSX.Element {
   return (
     <main className="page__main page__main--index">
+      <Helmet>
+        <title>6 Cities. Main</title>
+      </Helmet>
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">

@@ -1,9 +1,14 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+
 function SixCitiesList ({city} : {city : string}) : JSX.Element {
   return (
     <li className="locations__item">
-      <a className="locations__item-link tabs__item" href="#">
+      <Link className="locations__item-link tabs__item"
+        to={AppRoute.Main}
+      >
         <span>{city}</span>
-      </a>
+      </Link>
     </li>
   );
 }
