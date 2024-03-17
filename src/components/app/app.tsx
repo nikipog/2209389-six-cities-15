@@ -15,12 +15,11 @@ import { TReviewType } from '../../types/reviews';
 //импорты из библиотек желательно расположить в самом начале
 
 type AppPageProps = {
-  placesToStay: number;
   placesMock: TOffer[];
   reviews: TReviewType[];
 }
 
-function App({placesToStay, placesMock, reviews}: AppPageProps): JSX.Element {
+function App({ placesMock, reviews}: AppPageProps): JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
   return (
     <HelmetProvider>
@@ -32,7 +31,7 @@ function App({placesToStay, placesMock, reviews}: AppPageProps): JSX.Element {
           >
             <Route
               index
-              element={<MainPage placesToStay = {placesToStay}/>}
+              element={<MainPage placesMock = {placesMock}/>}
             />
             <Route
               path={AppRoute.Login}

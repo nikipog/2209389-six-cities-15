@@ -5,7 +5,7 @@ const placesMock: TOffer[] = [
     id: '6af6f711-c28d-4121-82cd-e0b462a27f00',
     title: 'Beautiful & luxurious studio at great location',
     type: 'apartment',
-    price: 120,
+    price: 100,
     city: {
       name: 'Amsterdam',
       location: {
@@ -21,7 +21,7 @@ const placesMock: TOffer[] = [
     },
     isFavorite: false,
     isPremium: true,
-    rating: 3.5,
+    rating: 3.4,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     bedrooms: 4,
     goods: [
@@ -36,13 +36,13 @@ const placesMock: TOffer[] = [
       'img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'
     ],
     maxAdults: 4,
-    previewImage: 'img/apartment-03.jpg'
+    previewImage: 'img/apartment-01.jpg'
   },
   {
     id: '6af6f711-c28d-4121-82cd-e0b462a27f01',
     title: 'Waterfront with extraordinary view',
     type: 'house',
-    price: 318,
+    price: 200,
     city: {
       name: 'Paris',
       location: {
@@ -73,13 +73,13 @@ const placesMock: TOffer[] = [
       'img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'
     ],
     maxAdults: 4,
-    previewImage: 'img/apartment-03.jpg'
+    previewImage: 'img/apartment-02.jpg'
   },
   {
     id: '6af6f711-c28d-4121-82cd-e0b462a27f02',
     title: 'Beautiful & luxurious studio at great location',
     type: 'apartment',
-    price: 120,
+    price: 300,
     city: {
       name: 'Amsterdam',
       location: {
@@ -95,7 +95,7 @@ const placesMock: TOffer[] = [
     },
     isFavorite: false,
     isPremium: false,
-    rating: 4.7,
+    rating: 4.4,
     description: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
     bedrooms: 1,
     goods: [
@@ -110,13 +110,13 @@ const placesMock: TOffer[] = [
       'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'
     ],
     maxAdults: 1,
-    previewImage: 'img/apartment-01.jpg'
+    previewImage: 'img/apartment-03.jpg'
   },
   {
     id: '6af6f711-c28d-4121-82cd-e0b462a27f03',
     title: 'Canal View Prinsengracht',
     type: 'Room',
-    price: 150,
+    price: 400,
     city: {
       name: 'Boguchar',
       location: {
@@ -132,7 +132,7 @@ const placesMock: TOffer[] = [
     },
     isFavorite: true,
     isPremium: true,
-    rating: 5,
+    rating: 4.5,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     bedrooms: 3,
     goods: [
@@ -147,7 +147,7 @@ const placesMock: TOffer[] = [
       'img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'
     ],
     maxAdults: 2,
-    previewImage: 'img/apartment-03.jpg'
+    previewImage: 'img/apartment-02.jpg'
   },
 ];
 
