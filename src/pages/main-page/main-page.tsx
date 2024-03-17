@@ -7,6 +7,7 @@ import SixCitiesList from '../../components/six-cities-list/six-cities-list';
 import PlacesOptions from '../../components/places-options/places-options';
 import { CITIES, PLACES_OPTIONS } from '../../const';
 
+
 const PLACE_CARDS_COUNT = 5;
 
 type MainPageProps = {

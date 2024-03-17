@@ -9,13 +9,18 @@ import { AppRoute } from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 import { getAuthorizationStatus } from '../../mocks/authorization-status';
+import { TOffer } from '../../types/offer';
+import { TReviewType } from '../../types/reviews';
+
 //импорты из библиотек желательно расположить в самом начале
 
 type AppPageProps = {
   placesToStay: number;
+  placesMock: TOffer[];
+  reviews: TReviewType[];
 }
 
-function App({placesToStay}: AppPageProps): JSX.Element {
+function App({placesToStay, placesMock, reviews}: AppPageProps): JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
   return (
     <HelmetProvider>
@@ -48,7 +53,7 @@ function App({placesToStay}: AppPageProps): JSX.Element {
             />
             <Route
               path={AppRoute.Offer}
-              element={<OfferPage/>}
+              element={<OfferPage placesMock = {placesMock} reviews = {reviews}/>}
             />
           </Route>
           <Route
