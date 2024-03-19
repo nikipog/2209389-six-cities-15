@@ -4,49 +4,48 @@ import { TOffer } from '../../types/offer';
 import { RATING_WIDTH_STEP } from '../../const';
 
 type PlaceCardProps = {
-  className: string;
   place: TOffer;
   handleHover: (offer? : TOffer) => void;
 }
 
-function PlaceCard({className = 'cities__card', place, handleHover} : PlaceCardProps): JSX.Element {
-  const {isPremium, previewImage, price, rating, title, type} = place;
+function PlaceCard({place, handleHover} : PlaceCardProps): JSX.Element {
+  const {id, isPremium, previewImage, price, rating, title, type, isFavorite = false} = place;
 
-  const handleMouseOn = () => {
+  const handleMouseEnter = () => {
     handleHover(place);
   };
 
-  const handleMouseOff = () => {
+  const handleMouseLeave = () => {
     handleHover();
   };
   return (
     <article
-      className={`${className} place-card`}
-      onMouseEnter={handleMouseOn}
-      onMouseLeave={handleMouseOff}
+      className={`${isFavorite ? 'favorites__card' : 'cities__card'} place-card`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {isPremium &&
       <div className="place-card__mark">
         <span>Premium</span>
       </div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${isFavorite ? 'favorites__image-wrapper' : 'cities__image-wrapper'} place-card__image-wrapper `}>
         <Link
-          to={AppRoute.Offer}
+          to={`${AppRoute.Offer}/${id}`}
         >
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
+          <img className="place-card__image" src={previewImage} width={isFavorite ? '150' : '260'} height={isFavorite ? '110' : '200'} alt="Place image" />
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className={`place-card__info ${isFavorite ? 'favorites__card-info' : 'place-card__info'}`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
           </button>
         </div>
         <div className="place-card__rating rating">
@@ -57,7 +56,7 @@ function PlaceCard({className = 'cities__card', place, handleHover} : PlaceCardP
         </div>
         <h2 className="place-card__name">
           <Link
-            to={AppRoute.Offer}
+            to={`${AppRoute.Offer}/${id}`}
           >
             {title}
           </Link>

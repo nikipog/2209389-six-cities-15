@@ -46,7 +46,7 @@ function App({ placesMock, reviews}: AppPageProps): JSX.Element {
               path={AppRoute.Favorites}
               element={(
                 <PrivateRoute authorizationStatus={authorizationStatus}>
-                  <FavoritesPage/>
+                  <FavoritesPage placesMock = {placesMock}/>
                 </PrivateRoute>
               )}
             />

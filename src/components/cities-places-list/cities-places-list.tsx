@@ -21,7 +21,6 @@ function CitiesPlacesList ({placesMock} : CitiesPlacesListProps) : JSX.Element {
           <PlaceCard
             key={place.id}
             place={place}
-            className={'cities__card'}
             handleHover={handleHover}
           />)
         )

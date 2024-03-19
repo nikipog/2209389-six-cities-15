@@ -5,7 +5,7 @@ type reviewProps = {
   reviews: TReviewType[];
 }
 
-function PlaceReview ({reviews} : reviewProps) : JSX.Element {
+function ReviewsList ({reviews} : reviewProps) : JSX.Element {
 
   return (
     <ul className="reviews__list">
@@ -43,4 +43,4 @@ function PlaceReview ({reviews} : reviewProps) : JSX.Element {
     </ul>);
 }
 
-export default PlaceReview;
+export default ReviewsList;

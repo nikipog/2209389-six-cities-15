@@ -2,9 +2,8 @@ import { Helmet } from 'react-helmet-async';
 import PlaceGalleryContainer from '../../components/place-gallery-container/place-gallery-container';
 import PlaceImage from '../../components/place-image/place-image';
 import FacilitiesInsidePlace from '../../components/facilities-inside-place/facilities-inside-place';
-import PlaceReview from '../../components/place-review/place-review';
-import PlaceRating from '../../components/place-rating/place-rating';
-import PlaceCard from '../../components/place-card/place-card';
+import ReviewsList from '../../components/review-list/reviews-list';
+
 import NearPlacesList from '../../components/near-places-list/near-places-list';
 import { getAuthorizationStatus } from '../../mocks/authorization-status';
 import { AuthorizationStatus, RATING_WIDTH_STEP } from '../../const';
@@ -12,8 +11,8 @@ import { TOffer } from '../../types/offer';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
 import { TReviewType } from '../../types/reviews';
+import ReviewForm from '../../components/review-form/review-form';
 
-const PLACE_CARDS_COUNT = 3;
 const MIN_BEDROOMS_COUNT = 1;
 const MIN_ADULTS_COUNT = 1;
 
@@ -23,8 +22,8 @@ type OfferPageProps = {
 }
 
 function OfferPage({placesMock, reviews} : OfferPageProps) : JSX.Element {
-  const { id } = useParams<{ id: string }>();
   const authorizationStatus = getAuthorizationStatus();
+  const { id } = useParams<{ id: string }>();
   const currentPlace: TOffer | undefined = placesMock.find((place: TOffer) => place.id === id);
   if (typeof currentPlace === 'undefined') {
     return <NotFoundPage/>;
@@ -123,38 +122,9 @@ function OfferPage({placesMock, reviews} : OfferPageProps) : JSX.Element {
               <h2 className="reviews__title">
               Reviews · <span className="reviews__amount">{reviews.length}</span>
               </h2>
-              <PlaceReview reviews={reviews}/>
+              <ReviewsList reviews={reviews}/>
               {
-                authorizationStatus === AuthorizationStatus.Auth ? (
-                  <form className="reviews__form form" action="#" method="post">
-                    <label className="reviews__label form__label" htmlFor="review">
-                Your review
-                    </label>
-                    <PlaceRating/>
-                    <textarea
-                      className="reviews__textarea form__textarea"
-                      id="review"
-                      name="review"
-                      placeholder="Tell how was your stay, what you like and what can be improved"
-                      defaultValue={''}
-                    />
-                    <div className="reviews__button-wrapper">
-                      <p className="reviews__help">
-                  To submit review please make sure to set{' '}
-                        <span className="reviews__star">rating</span> and describe
-                  your stay with at least{' '}
-                        <b className="reviews__text-amount">50 characters</b>.
-                      </p>
-                      <button
-                        className="reviews__submit form__submit button"
-                        type="submit"
-                        disabled
-                      >
-                  Submit
-                      </button>
-                    </div>
-                  </form>
-                ) : null
+                authorizationStatus === AuthorizationStatus.Auth && <ReviewForm/>
               }
             </section>
           </div>
@@ -166,11 +136,7 @@ function OfferPage({placesMock, reviews} : OfferPageProps) : JSX.Element {
           <h2 className="near-places__title">
           Other places in the neighborhood
           </h2>
-          <NearPlacesList>
-            {Array.from({ length: PLACE_CARDS_COUNT}).map(() => (
-              <PlaceCard key={crypto.randomUUID()} className='near-places__card'/>
-            ))}
-          </NearPlacesList>
+          <NearPlacesList/>
         </section>
       </div>
     </main>
