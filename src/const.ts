@@ -19,5 +19,18 @@ const FACILITIES_INSIDE_PLACE = [
   'Wi-Fi',
 ];
 
-export {Settings, CITIES, PLACES_OPTIONS, FACILITIES_INSIDE_PLACE };
+enum AppRoute {
+  Main = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/:id'
+}
+
+enum AuthorizationStatus {
+  Auth ='Auth',
+  NoAuth = 'NoAuth',
+  Unknown = 'Unknown'
+}
+
+export {Settings, CITIES, PLACES_OPTIONS, FACILITIES_INSIDE_PLACE, AppRoute, AuthorizationStatus };
 

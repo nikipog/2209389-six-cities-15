@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+
 function FavoritesPlaceCard () : JSX.Element {
   return (
     <article className="favorites__card place-card">
@@ -5,9 +8,11 @@ function FavoritesPlaceCard () : JSX.Element {
         <span>Premium</span>
       </div>
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link
+          to={AppRoute.Offer}
+        >
           <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place image" />
-        </a>
+        </Link>
       </div>
       <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
@@ -29,7 +34,10 @@ function FavoritesPlaceCard () : JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">Nice, cozy, warm big bed apartment</a>
+          <Link
+            to={AppRoute.Offer}
+          >Nice, cozy, warm big bed apartment
+          </Link>
         </h2>
         <p className="place-card__type">Apartment</p>
       </div>
