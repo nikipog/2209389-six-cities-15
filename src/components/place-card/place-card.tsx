@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
 import { TOffer } from '../../types/offer';
 import { RATING_WIDTH_STEP } from '../../const';
 
@@ -30,7 +29,7 @@ function PlaceCard({place, handleHover} : PlaceCardProps): JSX.Element {
       </div>}
       <div className={`${isFavorite ? 'favorites__image-wrapper' : 'cities__image-wrapper'} place-card__image-wrapper `}>
         <Link
-          to={`${AppRoute.Offer}/${id}`}
+          to={`${'/offer'}/${id}`}
         >
           <img className="place-card__image" src={previewImage} width={isFavorite ? '150' : '260'} height={isFavorite ? '110' : '200'} alt="Place image" />
         </Link>
@@ -56,7 +55,7 @@ function PlaceCard({place, handleHover} : PlaceCardProps): JSX.Element {
         </div>
         <h2 className="place-card__name">
           <Link
-            to={`${AppRoute.Offer}/${id}`}
+            to={`${'/offer'}/${id}`}
           >
             {title}
           </Link>
