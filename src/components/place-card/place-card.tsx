@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
 import { TOffer } from '../../types/offer';
-import { RATING_WIDTH_STEP } from '../../const';
+import { AppRoute, RATING_WIDTH_STEP } from '../../const';
 
 type PlaceCardProps = {
   place: TOffer;
@@ -10,6 +10,7 @@ type PlaceCardProps = {
 
 function PlaceCard({place, handleHover, className = 'cities'} : PlaceCardProps): JSX.Element {
   const {id, isPremium, previewImage, price, rating, title, type, isFavorite = false} = place;
+  const url = generatePath(AppRoute.Offer, { id });
 
   const handleMouseEnter = () => {
     handleHover(place);
@@ -30,7 +31,7 @@ function PlaceCard({place, handleHover, className = 'cities'} : PlaceCardProps):
       </div>}
       <div className={`${className}__image-wrapper place-card__image-wrapper`}>
         <Link
-          to={`${'/offer'}/${id}`}
+          to={url}
         >
           <img className="place-card__image" src={previewImage} width='260' height='200' alt="Place image" />
         </Link>
@@ -56,7 +57,7 @@ function PlaceCard({place, handleHover, className = 'cities'} : PlaceCardProps):
         </div>
         <h2 className="place-card__name">
           <Link
-            to={`${'/offer'}/${id}`}
+            to={url}
           >
             {title}
           </Link>

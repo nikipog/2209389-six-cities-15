@@ -16,7 +16,7 @@ isPro: boolean;
 }
 
 export type TOffer = {
-id: string | number;
+id: string;
 title: string;
 type: string;
 price: number;
