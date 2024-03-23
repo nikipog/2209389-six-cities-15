@@ -44,7 +44,7 @@ function MainPage ({placesMock}: MainPageProps) : JSX.Element {
                 {PLACES_OPTIONS.map((option) => <PlacesOptions option = {option} key = {option} />)}
               </ul>
             </form>
-            <CitiesPlacesList placesMock ={placesMock}/>
+            <CitiesPlacesList placesMock ={placesMock} className='cities__places-list places__list tabs__content'/>
           </section>
           <Map/>
 

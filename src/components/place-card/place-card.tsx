@@ -5,9 +5,10 @@ import { RATING_WIDTH_STEP } from '../../const';
 type PlaceCardProps = {
   place: TOffer;
   handleHover: (offer? : TOffer) => void;
+  className? : string;
 }
 
-function PlaceCard({place, handleHover} : PlaceCardProps): JSX.Element {
+function PlaceCard({place, handleHover, className = 'cities'} : PlaceCardProps): JSX.Element {
   const {id, isPremium, previewImage, price, rating, title, type, isFavorite = false} = place;
 
   const handleMouseEnter = () => {
@@ -19,7 +20,7 @@ function PlaceCard({place, handleHover} : PlaceCardProps): JSX.Element {
   };
   return (
     <article
-      className={`${isFavorite ? 'favorites__card' : 'cities__card'} place-card`}
+      className={`${className}__card place-card`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -27,14 +28,14 @@ function PlaceCard({place, handleHover} : PlaceCardProps): JSX.Element {
       <div className="place-card__mark">
         <span>Premium</span>
       </div>}
-      <div className={`${isFavorite ? 'favorites__image-wrapper' : 'cities__image-wrapper'} place-card__image-wrapper `}>
+      <div className={`${className}__image-wrapper place-card__image-wrapper`}>
         <Link
           to={`${'/offer'}/${id}`}
         >
-          <img className="place-card__image" src={previewImage} width={isFavorite ? '150' : '260'} height={isFavorite ? '110' : '200'} alt="Place image" />
+          <img className="place-card__image" src={previewImage} width='260' height='200' alt="Place image" />
         </Link>
       </div>
-      <div className={`place-card__info ${isFavorite ? 'favorites__card-info' : 'place-card__info'}`}>
+      <div className='place-card__info'>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>

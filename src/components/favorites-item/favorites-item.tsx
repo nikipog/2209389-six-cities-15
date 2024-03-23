@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { TOffer } from '../../types/offer';
-import { AppRoute } from '../../const';
-import CitiesPlacesList from '../cities-places-list/cities-places-list';
+import { AppRoute, RATING_WIDTH_STEP } from '../../const';
 
 
 type FavoritesItemProps = {
@@ -9,20 +8,7 @@ type FavoritesItemProps = {
   city: string;
 }
 
-function FavoritesItem({placesMock, city }: FavoritesItemProps): JSX.Element | null {
-  // Проверяем, не является ли пустым массивом
-  if (placesMock.length === 0) {
-    return null;
-  }
-  // Проверяем, есть ли хотя бы один объект с полем isFavorite равным true
-  const hasFavoritePlace = placesMock.some((place) => place.isFavorite);
-
-  // Если нет объектов с isFavorite равным true, возвращаем null
-  if (!hasFavoritePlace) {
-    return null;
-  }
-
-  // Иначе отрисовываем компонент с отмеченными избранными местами
+function FavoritesItem({placesMock, city }: FavoritesItemProps): JSX.Element {
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
@@ -36,9 +22,43 @@ function FavoritesItem({placesMock, city }: FavoritesItemProps): JSX.Element | n
         </div>
       </div>
       <div className="favorites__places">
-        <CitiesPlacesList
-          placesMock={placesMock}
-        />
+
+        {placesMock.map((place) => (
+          <article key={place.id} className="favorites__card place-card">
+            <div className="place-card__mark">
+              <span>Premium</span>
+            </div>
+            <div className="favorites__image-wrapper place-card__image-wrapper">
+              <Link to={`/offer/${place.id}`}>
+                <img className="place-card__image" src={place.previewImage} width="150" height="110" alt="Place image" />
+              </Link>
+            </div>
+            <div className="favorites__card-info place-card__info">
+              <div className="place-card__price-wrapper">
+                <div className="place-card__price">
+                  <b className="place-card__price-value">&euro;{place.price}</b>
+                  <span className="place-card__price-text">&#47;&nbsp;night</span>
+                </div>
+                <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+                  <svg className="place-card__bookmark-icon" width="18" height="19">
+                    <use xlinkHref="#icon-bookmark"></use>
+                  </svg>
+                  <span className="visually-hidden">In bookmarks</span>
+                </button>
+              </div>
+              <div className="place-card__rating rating">
+                <div className="place-card__stars rating__stars">
+                  <span style={{width: `${place.rating * RATING_WIDTH_STEP}%`}}></span>
+                  <span className="visually-hidden">Rating</span>
+                </div>
+              </div>
+              <h2 className="place-card__name">
+                <Link to={`/offer/${place.id}`}>{place.title}</Link>
+              </h2>
+              <p className="place-card__type">{place.type}</p>
+            </div>
+          </article>))}
+
       </div>
     </li>
   );

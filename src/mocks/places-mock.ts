@@ -44,7 +44,7 @@ const placesMock: TOffer[] = [
     type: 'house',
     price: 200,
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
         latitude: 48.85661,
         longitude: 2.351499,
@@ -56,8 +56,8 @@ const placesMock: TOffer[] = [
       longitude: 4.673877537499948,
       zoom: 16
     },
-    isFavorite: true,
-    isPremium: true,
+    isFavorite: false,
+    isPremium: false,
     rating: 1.1,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Paris.',
     bedrooms: 3,
@@ -81,7 +81,7 @@ const placesMock: TOffer[] = [
     type: 'apartment',
     price: 300,
     city: {
-      name: 'Paris',
+      name: 'Amsterdam',
       location: {
         latitude: 52.35514938496378,
         longitude: 4.673877537499948,
@@ -130,7 +130,7 @@ const placesMock: TOffer[] = [
       longitude: 4.673877537499948,
       zoom: 2
     },
-    isFavorite: true,
+    isFavorite: false,
     isPremium: true,
     rating: 4.5,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
