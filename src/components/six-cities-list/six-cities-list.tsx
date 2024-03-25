@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { TCity } from '../../types/offer';
 
 type SixCitiesListProps = {
   city: string;

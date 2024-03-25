@@ -8,6 +8,7 @@ import { TOffer, TCity } from '../../types/offer';
 
 
 type MapProps = {
+  className? : string;
   city: TCity;
   offers: TOffer[];
   activeOfferId?: string | null;
@@ -25,7 +26,7 @@ const activeMarkerIcon = leaflet.icon({
   iconAnchor: [20, 40]
 });
 
-function Map({city, offers, activeOfferId}: MapProps): JSX.Element {
+function Map({className, city, offers, activeOfferId}: MapProps): JSX.Element {
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const map: LeafletMap | null = useMap({location: city.location, containerRef: mapContainerRef});
@@ -47,10 +48,8 @@ function Map({city, offers, activeOfferId}: MapProps): JSX.Element {
 
 
   return (
-    <div className="cities__right-section">
-      <section className="cities__map map" ref={mapContainerRef}>
-      </section>
-    </div>
+    <section className={`${className} map`} ref={mapContainerRef}></section>
+
   );
 }
 

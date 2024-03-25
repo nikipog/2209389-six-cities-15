@@ -4,7 +4,7 @@ import { AppRoute, RATING_WIDTH_STEP } from '../../const';
 
 type PlaceCardProps = {
   place: TOffer;
-  handleHover: (offer? : TOffer) => void;
+  handleHover?: (offer? : TOffer) => void;
   className? : string;
 }
 
@@ -13,12 +13,17 @@ function PlaceCard({place, handleHover, className = 'cities'} : PlaceCardProps):
   const url = generatePath(AppRoute.Offer, { id });
 
   const handleMouseEnter = () => {
-    handleHover(place);
+    if(handleHover) {
+      handleHover(place);
+    }
   };
 
   const handleMouseLeave = () => {
-    handleHover();
+    if(handleHover) {
+      handleHover();
+    }
   };
+
   return (
     <article
       className={`${className}__card place-card`}

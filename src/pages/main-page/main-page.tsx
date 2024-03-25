@@ -18,7 +18,7 @@ type MainPageProps = {
 function MainPage ({placesMock, locations}: MainPageProps) : JSX.Element {
   const [activeOffer, setActiveOffer] = useState<Nullable <TOffer>>(null);
   //console.log(activeOffer)
-  const [currentCity, setCurrentCity] = useState<TCity>(DEFAULT_CITY);
+  const [currentCity, ] = useState<TCity>(DEFAULT_CITY);
   //console.log(currentCity)
   const isActive = (item: string) => item === currentCity.name ? 'tabs__item--active' : '';
   return (
@@ -58,12 +58,14 @@ function MainPage ({placesMock, locations}: MainPageProps) : JSX.Element {
               onHoverOffer={setActiveOffer}
             />
           </section>
-          <Map
-            city={currentCity}
-            offers={placesMock}
-            activeOfferId={activeOffer && activeOffer.id}
-          />
-
+          <div className="cities__right-section">
+            <Map
+              className='cities__map'
+              city={currentCity}
+              offers={placesMock}
+              activeOfferId={activeOffer && activeOffer.id}
+            />
+          </div>
         </div>
       </div>
     </main>

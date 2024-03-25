@@ -3,8 +3,6 @@ import PlaceGalleryContainer from '../../components/place-gallery-container/plac
 import PlaceImage from '../../components/place-image/place-image';
 import FacilitiesInsidePlace from '../../components/facilities-inside-place/facilities-inside-place';
 import ReviewsList from '../../components/review-list/reviews-list';
-
-import NearPlacesList from '../../components/near-places-list/near-places-list';
 import { getAuthorizationStatus } from '../../mocks/authorization-status';
 import { AuthorizationStatus, RATING_WIDTH_STEP } from '../../const';
 import { TOffer } from '../../types/offer';
@@ -12,6 +10,8 @@ import { useParams } from 'react-router-dom';
 import NotFoundPage from '../not-found-page/not-found-page';
 import { TReviewType } from '../../types/reviews';
 import ReviewForm from '../../components/review-form/review-form';
+import Map from '../../components/map/map';
+import CitiesPlacesList from '../../components/cities-places-list/cities-places-list';
 
 const MIN_BEDROOMS_COUNT = 1;
 const MIN_ADULTS_COUNT = 1;
@@ -29,6 +29,10 @@ function OfferPage({placesMock, reviews} : OfferPageProps) : JSX.Element {
     return <NotFoundPage/>;
   }
   const {title, isPremium, isFavorite, rating, type, price, images, bedrooms, maxAdults, goods, host, description } = currentPlace;
+
+  const cardsWithoutCurrentOffer = placesMock.filter((offer) => offer.id !== currentPlace.id);
+  const nearbyCards = cardsWithoutCurrentOffer.slice(0, 3);
+  const nearOffersPlusCurrent = [currentPlace, ...nearbyCards];
 
 
   return (
@@ -129,14 +133,22 @@ function OfferPage({placesMock, reviews} : OfferPageProps) : JSX.Element {
             </section>
           </div>
         </div>
-        <section className="offer__map map" />
+        <Map
+          className='offer__map'
+          offers={nearOffersPlusCurrent}
+          city={currentPlace.city}
+          activeOfferId={currentPlace.id}
+        />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">
           Other places in the neighborhood
           </h2>
-          <NearPlacesList/>
+          <CitiesPlacesList
+            className='near-places__list places__list'
+            placesMock={nearbyCards}
+          />
         </section>
       </div>
     </main>
