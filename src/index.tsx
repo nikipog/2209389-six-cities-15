@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app.tsx';
-import { Settings } from './const';
+import placesMock from './mocks/places-mock.ts';
+import reviewsMock from './mocks/reviews-mock.ts';
 
 
 const root = ReactDOM.createRoot(
@@ -10,6 +11,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App placesToStay = {Settings.PlacesToStayCount}/>
+    <App
+      placesMock = {placesMock}
+      reviews = {reviewsMock}
+    />
   </React.StrictMode>
 );

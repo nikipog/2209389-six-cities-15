@@ -2,18 +2,35 @@ import { Helmet } from 'react-helmet-async';
 import PlaceGalleryContainer from '../../components/place-gallery-container/place-gallery-container';
 import PlaceImage from '../../components/place-image/place-image';
 import FacilitiesInsidePlace from '../../components/facilities-inside-place/facilities-inside-place';
-import PlaceReview from '../../components/place-review/place-review';
-import PlaceRating from '../../components/place-rating/place-rating';
-import PlaceCard from '../../components/place-card/place-card';
+import ReviewsList from '../../components/review-list/reviews-list';
+
 import NearPlacesList from '../../components/near-places-list/near-places-list';
 import { getAuthorizationStatus } from '../../mocks/authorization-status';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, RATING_WIDTH_STEP } from '../../const';
+import { TOffer } from '../../types/offer';
+import { useParams } from 'react-router-dom';
+import NotFoundPage from '../not-found-page/not-found-page';
+import { TReviewType } from '../../types/reviews';
+import ReviewForm from '../../components/review-form/review-form';
 
-const IMAGES_COUNT = 6;
-const PLACE_CARDS_COUNT = 3;
+const MIN_BEDROOMS_COUNT = 1;
+const MIN_ADULTS_COUNT = 1;
 
-function OfferPage() : JSX.Element {
+type OfferPageProps = {
+  placesMock: TOffer[];
+  reviews: TReviewType[];
+}
+
+function OfferPage({placesMock, reviews} : OfferPageProps) : JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
+  const { id } = useParams<{ id: string }>();
+  const currentPlace: TOffer | undefined = placesMock.find((place: TOffer) => place.id === id);
+  if (typeof currentPlace === 'undefined') {
+    return <NotFoundPage/>;
+  }
+  const {title, isPremium, isFavorite, rating, type, price, images, bedrooms, maxAdults, goods, host, description } = currentPlace;
+
+
   return (
     <main className="page__main page__main--offer">
       <Helmet>
@@ -22,22 +39,26 @@ function OfferPage() : JSX.Element {
       <section className="offer">
         <div className="offer__gallery-container container">
           <PlaceGalleryContainer>
-            {Array.from({ length: IMAGES_COUNT}).map(() => (
-              <PlaceImage key={crypto.randomUUID()} />
+            {images.map((imageSrc) => (
+              <PlaceImage imageSrc={imageSrc} key={crypto.randomUUID()} />
             ))}
           </PlaceGalleryContainer>
 
         </div>
         <div className="offer__container container">
           <div className="offer__wrapper">
-            <div className="offer__mark">
-              <span>Premium</span>
-            </div>
+            {isPremium && (
+              <div className="offer__mark">
+                <span>Premium</span>
+              </div>)}
             <div className="offer__name-wrapper">
               <h1 className="offer__name">
-              Beautiful &amp; luxurious studio at great location
+                {title}
               </h1>
-              <button className="offer__bookmark-button button" type="button">
+              <button
+                className={`offer__bookmark-button  ${isFavorite && 'offer__bookmark-button--active'} button`}
+                type="button"
+              >
                 <svg className="offer__bookmark-icon" width={31} height={33}>
                   <use xlinkHref="#icon-bookmark" />
                 </svg>
@@ -46,48 +67,49 @@ function OfferPage() : JSX.Element {
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
-                <span style={{ width: '80%' }} />
+                <span style={{ width: `${Math.round(rating) * RATING_WIDTH_STEP}%` }} />
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="offer__rating-value rating__value">4.8</span>
+              <span className="offer__rating-value rating__value">{rating}</span>
             </div>
             <ul className="offer__features">
-              <li className="offer__feature offer__feature--entire">Apartment</li>
+              <li className="offer__feature offer__feature--entire">{type}</li>
               <li className="offer__feature offer__feature--bedrooms">
-              3 Bedrooms
+                {bedrooms}
+                {bedrooms > MIN_BEDROOMS_COUNT ? ' bedrooms' : ' bedroom'}
               </li>
               <li className="offer__feature offer__feature--adults">
-              Max 4 adults
+              Max {maxAdults}
+                {maxAdults > MIN_ADULTS_COUNT ? ' adults' : ' adult'}
               </li>
             </ul>
             <div className="offer__price">
-              <b className="offer__price-value">€120</b>
+              <b className="offer__price-value">€{price}</b>
               <span className="offer__price-text">&nbsp;night</span>
             </div>
             <div className="offer__inside">
               <h2 className="offer__inside-title">What`s inside</h2>
-              <FacilitiesInsidePlace/>
+
+              <FacilitiesInsidePlace goods={goods} />
             </div>
             <div className="offer__host">
               <h2 className="offer__host-title">Meet the host</h2>
               <div className="offer__host-user user">
-                <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                <div className={`offer__avatar-wrapper ${host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
                   <img
                     className="offer__avatar user__avatar"
-                    src="img/avatar-angelina.jpg"
+                    src={host.avatarUrl}
                     width={74}
                     height={74}
                     alt="Host avatar"
                   />
                 </div>
-                <span className="offer__user-name">Angelina</span>
-                <span className="offer__user-status">Pro</span>
+                <span className="offer__user-name">{host.name}</span>
+                <span className="offer__user-status">{host.isPro ? 'Pro' : ''}</span>
               </div>
               <div className="offer__description">
                 <p className="offer__text">
-                A quiet cozy and picturesque that hides behind a a river by the
-                unique lightness of Amsterdam. The building is green and from
-                18th century.
+                  {description}
                 </p>
                 <p className="offer__text">
                 An independent House, strategically located between Rembrand
@@ -98,40 +120,11 @@ function OfferPage() : JSX.Element {
             </div>
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">
-              Reviews · <span className="reviews__amount">1</span>
+              Reviews · <span className="reviews__amount">{reviews.length}</span>
               </h2>
-              <PlaceReview/>
+              <ReviewsList reviews={reviews}/>
               {
-                authorizationStatus === AuthorizationStatus.Auth ? (
-                  <form className="reviews__form form" action="#" method="post">
-                    <label className="reviews__label form__label" htmlFor="review">
-                Your review
-                    </label>
-                    <PlaceRating/>
-                    <textarea
-                      className="reviews__textarea form__textarea"
-                      id="review"
-                      name="review"
-                      placeholder="Tell how was your stay, what you like and what can be improved"
-                      defaultValue={''}
-                    />
-                    <div className="reviews__button-wrapper">
-                      <p className="reviews__help">
-                  To submit review please make sure to set{' '}
-                        <span className="reviews__star">rating</span> and describe
-                  your stay with at least{' '}
-                        <b className="reviews__text-amount">50 characters</b>.
-                      </p>
-                      <button
-                        className="reviews__submit form__submit button"
-                        type="submit"
-                        disabled
-                      >
-                  Submit
-                      </button>
-                    </div>
-                  </form>
-                ) : null
+                authorizationStatus === AuthorizationStatus.Auth && <ReviewForm/>
               }
             </section>
           </div>
@@ -143,11 +136,7 @@ function OfferPage() : JSX.Element {
           <h2 className="near-places__title">
           Other places in the neighborhood
           </h2>
-          <NearPlacesList>
-            {Array.from({ length: PLACE_CARDS_COUNT}).map(() => (
-              <PlaceCard key={crypto.randomUUID()} className='near-places__card'/>
-            ))}
-          </NearPlacesList>
+          <NearPlacesList/>
         </section>
       </div>
     </main>

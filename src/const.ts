@@ -3,20 +3,15 @@ const Settings = {
 } as const;
 
 const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
-
 const PLACES_OPTIONS = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+const RATING_WIDTH_STEP = 20;
 
-const FACILITIES_INSIDE_PLACE = [
-  'Washing machine',
-  'Towels',
-  'Heating',
-  'Coffee machine',
-  'Baby seat',
-  'Kitchen',
-  'Dishwasher',
-  'Cable TV',
-  'Fridge',
-  'Wi-Fi',
+const RATINGS = [
+  {value: 5, label: 'perfect'},
+  {value: 4, label: 'good'},
+  {value: 3, label: 'not bad'},
+  {value: 2, label: 'badly'},
+  {value: 1, label: 'terribly'},
 ];
 
 enum AppRoute {
@@ -32,5 +27,6 @@ enum AuthorizationStatus {
   Unknown = 'Unknown'
 }
 
-export {Settings, CITIES, PLACES_OPTIONS, FACILITIES_INSIDE_PLACE, AppRoute, AuthorizationStatus };
+
+export {Settings, CITIES, PLACES_OPTIONS, AppRoute, AuthorizationStatus, RATING_WIDTH_STEP, RATINGS};
 

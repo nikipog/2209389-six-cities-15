@@ -1,7 +1,29 @@
 import { Helmet } from 'react-helmet-async';
-import FavoritesPlaceCard from '../../components/favorites-place-card/favorites-place-card';
+import { TOffer } from '../../types/offer';
+import FavoritesItem from '../../components/favorites-item/favorites-item';
 
-function FavoritesPage () : JSX.Element {
+type TGroupedByCity = {
+  [index: string]: TOffer[];
+}
+
+function groupOffersByCity(items: TOffer[]): TGroupedByCity {
+  return items.reduce((grouped: TGroupedByCity, item) => {
+    const city = item.city.name;
+    if (!grouped[city]) {
+      grouped[city] = [];
+    }
+    grouped[city].push(item);
+    return grouped;
+  }, {});
+}
+
+type FavoritePageProps = {
+  placesMock: TOffer[];
+}
+
+function FavoritesPage ({placesMock} : FavoritePageProps) : JSX.Element {
+  const favoritePlaces = placesMock.filter((place) => place.isFavorite);
+  const offersGroupedByCity = groupOffersByCity(favoritePlaces);
   return (
     <main className="page__main page__main--favorites">
       <Helmet>
@@ -11,31 +33,7 @@ function FavoritesPage () : JSX.Element {
         <section className="favorites">
           <h1 className="favorites__title">Saved listing</h1>
           <ul className="favorites__list">
-            <li className="favorites__locations-items">
-              <div className="favorites__locations locations locations--current">
-                <div className="locations__item">
-                  <a className="locations__item-link" href="#">
-                    <span>Amsterdam</span>
-                  </a>
-                </div>
-              </div>
-              <div className="favorites__places">
-                <FavoritesPlaceCard />
-              </div>
-            </li>
-
-            <li className="favorites__locations-items">
-              <div className="favorites__locations locations locations--current">
-                <div className="locations__item">
-                  <a className="locations__item-link" href="#">
-                    <span>Cologne</span>
-                  </a>
-                </div>
-              </div>
-              <div className="favorites__places">
-                <FavoritesPlaceCard />
-              </div>
-            </li>
+            {Object.keys(offersGroupedByCity).map((city) => <FavoritesItem key={city} city={city} placesMock={offersGroupedByCity[city]}/>)}
           </ul>
         </section>
       </div>
