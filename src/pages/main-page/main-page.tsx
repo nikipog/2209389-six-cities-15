@@ -1,18 +1,26 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
+import { Nullable } from 'vitest';
 import Map from '../../components/map/map';
 import CitiesPlacesList from '../../components/cities-places-list/cities-places-list';
 import PlacesCounter from '../../components/places-counter/places-counter';
 import SixCitiesList from '../../components/six-cities-list/six-cities-list';
 import PlacesOptions from '../../components/places-options/places-options';
-import { CITIES, PLACES_OPTIONS } from '../../const';
-import { TOffer } from '../../types/offer';
+import { DEFAULT_CITY, PLACES_OPTIONS } from '../../const';
+import { TCity, TOffer } from '../../types/offer';
 
 
 type MainPageProps = {
   placesMock: TOffer[];
+  locations: TCity[];
 }
 
-function MainPage ({placesMock}: MainPageProps) : JSX.Element {
+function MainPage ({placesMock, locations}: MainPageProps) : JSX.Element {
+  const [activeOffer, setActiveOffer] = useState<Nullable <TOffer>>(null);
+  //console.log(activeOffer)
+  const [currentCity, setCurrentCity] = useState<TCity>(DEFAULT_CITY);
+  //console.log(currentCity)
+  const isActive = (item: string) => item === currentCity.name ? 'tabs__item--active' : '';
   return (
     <main className="page__main page__main--index">
       <Helmet>
@@ -22,7 +30,7 @@ function MainPage ({placesMock}: MainPageProps) : JSX.Element {
       <div className="tabs">
         <section className="locations container">
           <ul className="locations__list tabs__list">
-            {CITIES.map((city) => <SixCitiesList city = {city} key = {city}/>)}
+            {locations.map((city) => <SixCitiesList city = {city.name} isActive={isActive(city.name)} key = {city.name}/>)}
           </ul>
         </section>
       </div>
@@ -44,9 +52,17 @@ function MainPage ({placesMock}: MainPageProps) : JSX.Element {
                 {PLACES_OPTIONS.map((option) => <PlacesOptions option = {option} key = {option} />)}
               </ul>
             </form>
-            <CitiesPlacesList placesMock ={placesMock} className='cities__places-list places__list tabs__content'/>
+            <CitiesPlacesList
+              placesMock ={placesMock}
+              className='cities__places-list places__list tabs__content'
+              onHoverOffer={setActiveOffer}
+            />
           </section>
-          <Map/>
+          <Map
+            city={currentCity}
+            offers={placesMock}
+            activeOfferId={activeOffer && activeOffer.id}
+          />
 
         </div>
       </div>

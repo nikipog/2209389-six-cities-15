@@ -1,20 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { TOffer } from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
-import { Nullable } from 'vitest';
+
 
 type CitiesPlacesListProps = {
   placesMock: TOffer[];
   className: string;
+  onHoverOffer: (offer?: TOffer) => void;
 }
 
-function CitiesPlacesList ({placesMock, className} : CitiesPlacesListProps) : JSX.Element {
-  const [activeOffer, setActiveOffer] = useState<Nullable <TOffer>>(null);
+function CitiesPlacesList ({placesMock, className, onHoverOffer} : CitiesPlacesListProps) : JSX.Element {
+
   const handleHover = (offer? : TOffer) => {
-    setActiveOffer(offer || null);
+    onHoverOffer(offer);
   };
   useEffect(() => {
-  }, [activeOffer]);
+  }, []);
   return (
     <div className={className}>
       {

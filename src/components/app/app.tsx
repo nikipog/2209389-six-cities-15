@@ -5,7 +5,7 @@ import LoginPage from '../../pages/login-page/login-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
-import { AppRoute } from '../../const';
+import { AppRoute, CITIES } from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 import { getAuthorizationStatus } from '../../mocks/authorization-status';
@@ -31,7 +31,7 @@ function App({ placesMock, reviews}: AppPageProps): JSX.Element {
           >
             <Route
               index
-              element={<MainPage placesMock = {placesMock}/>}
+              element={<MainPage placesMock = {placesMock} locations = {CITIES}/>}
             />
             <Route
               path={AppRoute.Login}
