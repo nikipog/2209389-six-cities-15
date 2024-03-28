@@ -6,6 +6,7 @@ const Settings = {
 
 const CITIES: TCity[] = [
   {
+    id: 'paris',
     name: 'Paris',
     location: {
       latitude: 52.379189,
@@ -14,6 +15,7 @@ const CITIES: TCity[] = [
     },
   },
   {
+    id: 'cologne',
     name: 'Cologne',
     location: {
       latitude: 52.379189,
@@ -22,6 +24,7 @@ const CITIES: TCity[] = [
     },
   },
   {
+    id: 'brussels',
     name: 'Brussels',
     location: {
       latitude: 52.379189,
@@ -30,6 +33,7 @@ const CITIES: TCity[] = [
     },
   },
   {
+    id: 'amsterdam',
     name: 'Amsterdam',
     location: {
       latitude: 52.379189,
@@ -38,6 +42,7 @@ const CITIES: TCity[] = [
     },
   },
   {
+    id: 'hamburg',
     name: 'Hamburg',
     location: {
       latitude: 52.379189,
@@ -46,6 +51,7 @@ const CITIES: TCity[] = [
     },
   },
   {
+    id: 'dusseldorf',
     name: 'Dusseldorf',
     location: {
       latitude: 52.379189,
@@ -54,6 +60,8 @@ const CITIES: TCity[] = [
     },
   },
 ];
+
+export type CityName = typeof CITIES[number]['name'];
 
 const DEFAULT_CITY = CITIES[3];
 const PLACES_OPTIONS = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];

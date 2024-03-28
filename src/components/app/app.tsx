@@ -9,17 +9,15 @@ import { AppRoute, CITIES } from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 import { getAuthorizationStatus } from '../../mocks/authorization-status';
-import { TOffer } from '../../types/offer';
 import { TReviewType } from '../../types/reviews';
 
 //импорты из библиотек желательно расположить в самом начале
 
 type AppPageProps = {
-  placesMock: TOffer[];
   reviews: TReviewType[];
 }
 
-function App({ placesMock, reviews}: AppPageProps): JSX.Element {
+function App({ reviews}: AppPageProps): JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
   return (
     <HelmetProvider>
@@ -31,7 +29,7 @@ function App({ placesMock, reviews}: AppPageProps): JSX.Element {
           >
             <Route
               index
-              element={<MainPage placesMock = {placesMock} locations = {CITIES}/>}
+              element={<MainPage locations = {CITIES}/>}
             />
             <Route
               path={AppRoute.Login}
@@ -46,13 +44,13 @@ function App({ placesMock, reviews}: AppPageProps): JSX.Element {
               path={AppRoute.Favorites}
               element={(
                 <PrivateRoute authorizationStatus={authorizationStatus}>
-                  <FavoritesPage placesMock = {placesMock}/>
+                  <FavoritesPage/>
                 </PrivateRoute>
               )}
             />
             <Route
               path={AppRoute.Offer}
-              element={<OfferPage placesMock = {placesMock} reviews = {reviews}/>}
+              element={<OfferPage reviews = {reviews}/>}
             />
           </Route>
           <Route

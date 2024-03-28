@@ -1,5 +1,4 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
 import { Nullable } from 'vitest';
 import Map from '../../components/map/map';
 import CitiesPlacesList from '../../components/cities-places-list/cities-places-list';
@@ -7,19 +6,15 @@ import PlacesCounter from '../../components/places-counter/places-counter';
 import SixCitiesList from '../../components/six-cities-list/six-cities-list';
 import PlacesOptions from '../../components/places-options/places-options';
 import { DEFAULT_CITY, PLACES_OPTIONS } from '../../const';
-import { TCity, TOffer } from '../../types/offer';
+
+import { offersActions } from '../../store/slices/offers';
 
 
-type MainPageProps = {
-  placesMock: TOffer[];
-  locations: TCity[];
-}
-
-function MainPage ({placesMock, locations}: MainPageProps) : JSX.Element {
+function MainPage () : JSX.Element {
   const [activeOffer, setActiveOffer] = useState<Nullable <TOffer>>(null);
-  //console.log(activeOffer)
-  const [currentCity, ] = useState<TCity>(DEFAULT_CITY);
-  //console.log(currentCity)
+
+  const offers = useAppSelector(offersSelectors.offers);
+
   const isActive = (item: string) => item === currentCity.name ? 'tabs__item--active' : '';
   return (
     <main className="page__main page__main--index">
