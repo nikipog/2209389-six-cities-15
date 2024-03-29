@@ -1,7 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { DEFAULT_CITY } from '../../const';
 import { createSlice } from '@reduxjs/toolkit';
-
 import type { CityName } from '../../const';
 import type { TOffer } from '../../types/offer';
 
@@ -12,12 +11,10 @@ interface OffersState {
   city: CityName;
   offers: TOffer[];
 }
-
 const initialState: OffersState = {
   city: DEFAULT_CITY.name,
   offers,
 };
-
 const offersSlice = createSlice({
   initialState,
   name: 'offers',
@@ -26,9 +23,13 @@ const offersSlice = createSlice({
       state.city = action.payload;
     },
   },
+  selectors: {
+    city: (state: OffersState) => state.city,
+    offers: (state: OffersState) => state.offers,
+  }
 });
-
 const offersActions = offersSlice.actions;
+const offerSelectors = offersSlice.selectors;
 
-export { offersActions, offersSlice };
+export { offersActions, offersSlice, offerSelectors };
 

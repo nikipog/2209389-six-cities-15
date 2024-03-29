@@ -63,7 +63,7 @@ const CITIES: TCity[] = [
 
 export type CityName = typeof CITIES[number]['name'];
 
-const DEFAULT_CITY = CITIES[3];
+const DEFAULT_CITY = CITIES[0];
 const PLACES_OPTIONS = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
 const RATING_WIDTH_STEP = 20;
 
