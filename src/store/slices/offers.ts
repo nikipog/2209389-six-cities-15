@@ -29,7 +29,7 @@ const offersSlice = createSlice({
   }
 });
 const offersActions = offersSlice.actions;
-const offerSelectors = offersSlice.selectors;
+const offersSelectors = offersSlice.selectors;
 
-export { offersActions, offersSlice, offerSelectors };
+export { offersActions, offersSlice, offersSelectors };
 

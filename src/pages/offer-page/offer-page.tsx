@@ -13,7 +13,7 @@ import ReviewForm from '../../components/review-form/review-form';
 import Map from '../../components/map/map';
 import CitiesPlacesList from '../../components/cities-places-list/cities-places-list';
 import { useAppSelector } from '../../hooks/store';
-import { offerSelectors } from '../../store/slices/offers';
+import { offersSelectors } from '../../store/slices/offers';
 
 const MIN_BEDROOMS_COUNT = 1;
 const MIN_ADULTS_COUNT = 1;
@@ -27,8 +27,8 @@ function OfferPage({placesMock, reviews} : OfferPageProps) : JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
   const { id } = useParams<{ id: string }>();
 
-  const offers = useAppSelector(offerSelectors.offers);
-  console.log(offers)
+  const offers = useAppSelector(offersSelectors.offers);
+
   const currentPlace: TOffer | undefined = placesMock.find((place: TOffer) => place.id === id);
   if (typeof currentPlace === 'undefined') {
     return <NotFoundPage/>;

@@ -6,14 +6,19 @@ import PlacesCounter from '../../components/places-counter/places-counter';
 import SixCitiesList from '../../components/six-cities-list/six-cities-list';
 import PlacesOptions from '../../components/places-options/places-options';
 import { DEFAULT_CITY, PLACES_OPTIONS } from '../../const';
+import { useAppSelector } from '../../hooks/store';
+import { useActionCreators } from '../../hooks/store';
 
-import { offersActions } from '../../store/slices/offers';
+import { offersActions, offersSelectors } from '../../store/slices/offers';
 
 
 function MainPage () : JSX.Element {
-  const [activeOffer, setActiveOffer] = useState<Nullable <TOffer>>(null);
+  //const [activeOffer, setActiveOffer] = useState<Nullable <TOffer>>(null);
 
   const offers = useAppSelector(offersSelectors.offers);
+  const currentCity = useAppSelector(offersSelectors.city);
+
+  const {setCity} = useActionCreators(offersActions);
 
   const isActive = (item: string) => item === currentCity.name ? 'tabs__item--active' : '';
   return (
