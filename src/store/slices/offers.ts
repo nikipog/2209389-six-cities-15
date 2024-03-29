@@ -1,4 +1,4 @@
-import { PayloadAction } from '@reduxjs/toolkit';
+import { PayloadAction, createSelector } from '@reduxjs/toolkit';
 import { DEFAULT_CITY } from '../../const';
 import { createSlice } from '@reduxjs/toolkit';
 import type { CityName } from '../../const';
@@ -28,8 +28,14 @@ const offersSlice = createSlice({
     offers: (state: OffersState) => state.offers,
   }
 });
+
 const offersActions = offersSlice.actions;
-const offersSelectors = offersSlice.selectors;
+const offersSelectors = {
+  ...offersSlice.selectors,
+  cityOffers: createSelector(offersSlice.selectors.offers, offersSlice.selectors.city, (allOffers, city) =>
+    allOffers.filter((offer) => offer.city.name === city),
+  ),
+};
 
 export { offersActions, offersSlice, offersSelectors };
 

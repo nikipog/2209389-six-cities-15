@@ -15,9 +15,9 @@ import { offersActions, offersSelectors } from '../../store/slices/offers';
 function MainPage () : JSX.Element {
   //const [activeOffer, setActiveOffer] = useState<Nullable <TOffer>>(null);
 
-  const offers = useAppSelector(offersSelectors.offers);
+  const currentOffers = useAppSelector(offersSelectors.cityOffers);
   const currentCity = useAppSelector(offersSelectors.city);
-
+//используется вместо многократного вызова app dispatcher. Лайв 6. 47 мин.
   const {setCity} = useActionCreators(offersActions);
 
   const isActive = (item: string) => item === currentCity.name ? 'tabs__item--active' : '';
