@@ -64,7 +64,7 @@ const CITIES: TCity[] = [
 export type CityName = typeof CITIES[number]['name'];
 
 const DEFAULT_CITY = CITIES[0];
-const PLACES_OPTIONS = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+
 const RATING_WIDTH_STEP = 20;
 
 const RATINGS = [
@@ -102,5 +102,8 @@ const MapSetting = {
 };
 
 
-export { Settings, CITIES, PLACES_OPTIONS, AppRoute, AuthorizationStatus, RATING_WIDTH_STEP, RATINGS, URL_MARKER_CURRENT, URL_MARKER_DEFAULT, DEFAULT_CITY, MapSetting };
+export {
+  Settings, CITIES, AppRoute, AuthorizationStatus,
+  RATING_WIDTH_STEP, RATINGS, URL_MARKER_CURRENT, URL_MARKER_DEFAULT, DEFAULT_CITY, MapSetting,
+};
 
