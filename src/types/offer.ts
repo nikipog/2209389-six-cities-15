@@ -5,6 +5,7 @@ zoom: number;
 };
 
 export type TCity = {
+  id?: string;
   name: string;
   location: TLocationCoordinates;
 };

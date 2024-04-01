@@ -1,6 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import { TOffer } from '../../types/offer';
 import FavoritesItem from '../../components/favorites-item/favorites-item';
+import { useAppSelector } from '../../hooks/store';
+import { offersSelectors } from '../../store/slices/offers';
 
 type TGroupedByCity = {
   [index: string]: TOffer[];
@@ -17,12 +19,10 @@ function groupOffersByCity(items: TOffer[]): TGroupedByCity {
   }, {});
 }
 
-type FavoritePageProps = {
-  placesMock: TOffer[];
-}
 
-function FavoritesPage ({placesMock} : FavoritePageProps) : JSX.Element {
-  const favoritePlaces = placesMock.filter((place) => place.isFavorite);
+function FavoritesPage () : JSX.Element {
+  const offers = useAppSelector(offersSelectors.offers);
+  const favoritePlaces = offers.filter((place) => place.isFavorite);
   const offersGroupedByCity = groupOffersByCity(favoritePlaces);
   return (
     <main className="page__main page__main--favorites">

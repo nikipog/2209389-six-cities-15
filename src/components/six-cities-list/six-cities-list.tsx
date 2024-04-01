@@ -1,21 +1,26 @@
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import classNames from 'classnames';
+import { NavLink } from 'react-router-dom';
+import { TCity } from '../../types/offer';
 
 type SixCitiesListProps = {
-  city: string;
+  city: TCity;
   isActive: string;
 
 }
 
-function SixCitiesList ({city, isActive} : SixCitiesListProps) : JSX.Element {
+function SixCitiesList({ city, isActive }: SixCitiesListProps): JSX.Element {
 
   return (
     <li className="locations__item">
-      <Link className={`locations__item-link tabs__item ${isActive}`}
-        to={AppRoute.Main}
+      <NavLink
+        to={`/${city.id}`}
+        className={({ isActive : linkIsActive }) =>
+          classNames('locations__item-link tabs__item', {
+            'tabs__item--active': isActive || linkIsActive
+          })}
       >
-        <span>{city}</span>
-      </Link>
+        {city.name}
+      </NavLink>
     </li>
   );
 }

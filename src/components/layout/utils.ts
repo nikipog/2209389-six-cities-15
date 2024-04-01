@@ -1,4 +1,5 @@
 import { AppRoute } from '../../const';
+import { CITIES } from '../../const';
 
 export const getLayoutState = (pathname : AppRoute) => {
   let rootClassName = '';
@@ -6,7 +7,9 @@ export const getLayoutState = (pathname : AppRoute) => {
   let shouldRenderUser = true;
   let shouldRenderFooter = false;
 
-  if (pathname === AppRoute.Main) {
+  const cityRoutes = CITIES.map((city) => `/${city.id}`);
+
+  if (cityRoutes.includes(pathname)) {
     rootClassName = ' page--gray page--main';
     linkClassName = ' header__logo-link--active';
   } else if (pathname === AppRoute.Login) {

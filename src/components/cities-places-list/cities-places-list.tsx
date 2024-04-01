@@ -1,31 +1,38 @@
-import { useEffect } from 'react';
+import { MouseEvent } from 'react';
 import { TOffer } from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
-
+import { useActionCreators } from '../../hooks/store';
+import { offersActions } from '../../store/slices/offers';
 
 type CitiesPlacesListProps = {
-  placesMock: TOffer[];
+  currentOffers: TOffer[];
   className: string;
-  onHoverOffer?: (offer?: TOffer) => void;
 }
 
-function CitiesPlacesList ({placesMock, className, onHoverOffer} : CitiesPlacesListProps) : JSX.Element {
+function CitiesPlacesList ({currentOffers, className} : CitiesPlacesListProps) : JSX.Element {
 
-  const handleHover = (offer? : TOffer) => {
-    if (onHoverOffer) {
-      onHoverOffer(offer);
-    }
+  const { setActiveId } = useActionCreators(offersActions);
+
+
+  const handleMouseEnter = (evt: MouseEvent<HTMLElement>) => {
+    const target = evt.currentTarget as HTMLElement;
+    const id = target.dataset.id;
+    setActiveId(id);
   };
-  useEffect(() => {
-  }, []);
+
+  const handleMouseLeave = () => {
+    setActiveId(undefined);
+  };
+
   return (
     <div className={className}>
       {
-        placesMock.map((place) => (
+        currentOffers.map((offer) => (
           <PlaceCard
-            key={place.id}
-            place={place}
-            handleHover={handleHover}
+            key={offer.id}
+            place={offer}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           />)
         )
       }

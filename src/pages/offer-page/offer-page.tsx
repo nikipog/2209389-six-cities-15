@@ -12,25 +12,31 @@ import { TReviewType } from '../../types/reviews';
 import ReviewForm from '../../components/review-form/review-form';
 import Map from '../../components/map/map';
 import CitiesPlacesList from '../../components/cities-places-list/cities-places-list';
+import { useAppSelector } from '../../hooks/store';
+import { offersSelectors } from '../../store/slices/offers';
 
 const MIN_BEDROOMS_COUNT = 1;
 const MIN_ADULTS_COUNT = 1;
 
 type OfferPageProps = {
-  placesMock: TOffer[];
+
   reviews: TReviewType[];
 }
 
-function OfferPage({placesMock, reviews} : OfferPageProps) : JSX.Element {
+function OfferPage({ reviews} : OfferPageProps) : JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
   const { id } = useParams<{ id: string }>();
-  const currentPlace: TOffer | undefined = placesMock.find((place: TOffer) => place.id === id);
+
+  const offers = useAppSelector(offersSelectors.offers);
+
+  const currentPlace: TOffer | undefined = offers.find((place: TOffer) => place.id === id);
   if (typeof currentPlace === 'undefined') {
     return <NotFoundPage/>;
   }
+
   const {title, isPremium, isFavorite, rating, type, price, images, bedrooms, maxAdults, goods, host, description } = currentPlace;
 
-  const cardsWithoutCurrentOffer = placesMock.filter((offer) => offer.id !== currentPlace.id);
+  const cardsWithoutCurrentOffer = offers.filter((offer) => offer.id !== currentPlace.id);
   const nearbyCards = cardsWithoutCurrentOffer.slice(0, 3);
   const nearOffersPlusCurrent = [currentPlace, ...nearbyCards];
 
@@ -134,10 +140,9 @@ function OfferPage({placesMock, reviews} : OfferPageProps) : JSX.Element {
           </div>
         </div>
         <Map
-          className='offer__map'
           offers={nearOffersPlusCurrent}
-          city={currentPlace.city}
-          activeOfferId={currentPlace.id}
+          city={currentPlace.city.name}
+          place='offer'
         />
       </section>
       <div className="container">
@@ -147,7 +152,7 @@ function OfferPage({placesMock, reviews} : OfferPageProps) : JSX.Element {
           </h2>
           <CitiesPlacesList
             className='near-places__list places__list'
-            placesMock={nearbyCards}
+            currentOffers={nearbyCards}
           />
         </section>
       </div>

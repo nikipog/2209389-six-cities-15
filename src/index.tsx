@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app.tsx';
-import placesMock from './mocks/places-mock.ts';
+import './polyfills';
 import reviewsMock from './mocks/reviews-mock.ts';
-
+import { Provider } from 'react-redux';
+import { store } from './store/index.ts';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -11,9 +12,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App
-      placesMock = {placesMock}
-      reviews = {reviewsMock}
-    />
+    <Provider store={store}>
+      <App reviews={reviewsMock}/>
+    </Provider>
   </React.StrictMode>
 );

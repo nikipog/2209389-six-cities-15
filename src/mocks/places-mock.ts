@@ -52,11 +52,11 @@ const placesMock: TOffer[] = [
       }
     },
     location: {
-      latitude: 52.3909553943508,
-      longitude: 4.85309666406198,
+      latitude: 48.867938097468,
+      longitude: 2.3396103969726623,
       zoom: 16
     },
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     rating: 1.1,
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Paris.',
@@ -190,7 +190,8 @@ const placesMock: TOffer[] = [
     isFavorite: false,
     rating: 3,
     bedrooms: 3,
-    maxAdults: 2
+    maxAdults: 2,
+    previewImage: 'img/apartment-01.jpg'
   },
   {
     id: '643c659f-681a-4623-8b60-471dd6cca2e8',
@@ -243,7 +244,8 @@ const placesMock: TOffer[] = [
     isFavorite: false,
     rating: 3.4,
     bedrooms: 5,
-    maxAdults: 7
+    maxAdults: 7,
+    previewImage: 'img/apartment-02.jpg'
   },
   {
     id: '6b2d9c92-cb8d-4b65-84bb-08a527570619',
@@ -294,7 +296,8 @@ const placesMock: TOffer[] = [
     isFavorite: false,
     rating: 4.4,
     bedrooms: 4,
-    maxAdults: 9
+    maxAdults: 9,
+    previewImage: 'img/apartment-03.jpg'
   },
   {
     id: 'bc241124-4dbe-445b-8511-a35ac300c772',
@@ -344,7 +347,8 @@ const placesMock: TOffer[] = [
     isFavorite: false,
     rating: 2.8,
     bedrooms: 1,
-    maxAdults: 7
+    maxAdults: 7,
+    previewImage: 'img/apartment-03.jpg'
   }
 ];
 
