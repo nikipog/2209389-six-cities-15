@@ -1,34 +1,30 @@
 import { Link, generatePath } from 'react-router-dom';
+import { MouseEvent } from 'react';
 import { TOffer } from '../../types/offer';
 import { AppRoute, RATING_WIDTH_STEP } from '../../const';
 
+// type PlaceCardProps = TOffer & Pick<ComponentProps<'article'>, 'onMouseEnter' | 'onMouseLeave'> & {
+//   className? : string;
+// };
 type PlaceCardProps = {
   place: TOffer;
-  handleHover?: (offer? : TOffer) => void;
-  className? : string;
-}
+  onMouseEnter?: (evt: MouseEvent<HTMLElement>) => void;
+  onMouseLeave?: (evt: MouseEvent<HTMLElement>) => void;
+  className?: string;
+};
 
-function PlaceCard({place, handleHover, className = 'cities'} : PlaceCardProps): JSX.Element {
+
+function PlaceCard({place, className = 'cities', onMouseEnter, onMouseLeave } : PlaceCardProps): JSX.Element {
   const {id, isPremium, previewImage, price, rating, title, type, isFavorite = false} = place;
   const url = generatePath(AppRoute.Offer, { id });
 
-  const handleMouseEnter = () => {
-    if(handleHover) {
-      handleHover(place);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if(handleHover) {
-      handleHover();
-    }
-  };
 
   return (
     <article
       className={`${className}__card place-card`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      data-id={id}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       {isPremium &&
       <div className="place-card__mark">

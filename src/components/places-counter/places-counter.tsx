@@ -1,10 +1,14 @@
+import { CityName } from '../../const';
+import { TOffer } from '../../types/offer';
+
 type PlacesCounterComponentProps = {
-  placesToStay: number;
+  placesToStay: TOffer[];
+  currentCity: CityName;
 }
 
-function PlacesCounter ({placesToStay}: PlacesCounterComponentProps) : JSX.Element {
+function PlacesCounter ({placesToStay, currentCity}: PlacesCounterComponentProps) : JSX.Element {
   return (
-    <b className="places__found">{placesToStay} places to stay in Amsterdam</b>
+    <b className="places__found">{placesToStay.length} place{placesToStay.length > 1 && 's'} to stay in {currentCity}</b>
   );
 }
 

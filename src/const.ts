@@ -9,8 +9,8 @@ const CITIES: TCity[] = [
     id: 'paris',
     name: 'Paris',
     location: {
-      latitude: 52.379189,
-      longitude: 4.899431,
+      latitude: 48.85661,
+      longitude: 2.351499,
       zoom: 12,
     },
   },
@@ -18,8 +18,8 @@ const CITIES: TCity[] = [
     id: 'cologne',
     name: 'Cologne',
     location: {
-      latitude: 52.379189,
-      longitude: 4.899431,
+      latitude: 50.938361,
+      longitude: 6.959974,
       zoom: 12,
     },
   },
@@ -27,8 +27,8 @@ const CITIES: TCity[] = [
     id: 'brussels',
     name: 'Brussels',
     location: {
-      latitude: 52.379189,
-      longitude: 4.899431,
+      latitude: 50.8465573,
+      longitude: 4.351697,
       zoom: 12,
     },
   },
@@ -45,8 +45,8 @@ const CITIES: TCity[] = [
     id: 'hamburg',
     name: 'Hamburg',
     location: {
-      latitude: 52.379189,
-      longitude: 4.899431,
+      latitude: 53.550341,
+      longitude: 10.000654,
       zoom: 12,
     },
   },
@@ -54,8 +54,8 @@ const CITIES: TCity[] = [
     id: 'dusseldorf',
     name: 'Dusseldorf',
     location: {
-      latitude: 52.379189,
-      longitude: 4.899431,
+      latitude: 51.2254018,
+      longitude: 6.7763137,
       zoom: 12,
     },
   },
@@ -68,11 +68,11 @@ const PLACES_OPTIONS = ['Popular', 'Price: low to high', 'Price: high to low', '
 const RATING_WIDTH_STEP = 20;
 
 const RATINGS = [
-  {value: 5, label: 'perfect'},
-  {value: 4, label: 'good'},
-  {value: 3, label: 'not bad'},
-  {value: 2, label: 'badly'},
-  {value: 1, label: 'terribly'},
+  { value: 5, label: 'perfect' },
+  { value: 4, label: 'good' },
+  { value: 3, label: 'not bad' },
+  { value: 2, label: 'badly' },
+  { value: 1, label: 'terribly' },
 ];
 
 enum AppRoute {
@@ -83,7 +83,7 @@ enum AppRoute {
 }
 
 enum AuthorizationStatus {
-  Auth ='Auth',
+  Auth = 'Auth',
   NoAuth = 'NoAuth',
   Unknown = 'Unknown'
 }
@@ -91,9 +91,16 @@ enum AuthorizationStatus {
 const URL_MARKER_DEFAULT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
 
-const URL_MARKER_ACTIVE =
+const URL_MARKER_CURRENT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
 
+const MapSetting = {
+  Layer:
+    'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+  Attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+};
 
-export {Settings, CITIES, PLACES_OPTIONS, AppRoute, AuthorizationStatus, RATING_WIDTH_STEP, RATINGS, URL_MARKER_ACTIVE, URL_MARKER_DEFAULT, DEFAULT_CITY};
+
+export { Settings, CITIES, PLACES_OPTIONS, AppRoute, AuthorizationStatus, RATING_WIDTH_STEP, RATINGS, URL_MARKER_CURRENT, URL_MARKER_DEFAULT, DEFAULT_CITY, MapSetting };
 

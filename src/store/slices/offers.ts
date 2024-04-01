@@ -1,41 +1,33 @@
-import { PayloadAction, createSelector } from '@reduxjs/toolkit';
-import { DEFAULT_CITY } from '../../const';
-import { createSlice } from '@reduxjs/toolkit';
-import type { CityName } from '../../const';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import type { TOffer } from '../../types/offer';
 
-//константа placesMock импортирована как offers для удобства
 import offers from '../../mocks/places-mock';
 
-interface OffersState {
-  city: CityName;
+type OffersState = {
+  activeId?: TOffer['id'];
   offers: TOffer[];
-}
+};
+
 const initialState: OffersState = {
-  city: DEFAULT_CITY.name,
+  activeId: undefined,
   offers,
 };
 const offersSlice = createSlice({
   initialState,
   name: 'offers',
   reducers: {
-    setCity: (state, action: PayloadAction<CityName>) => {
-      state.city = action.payload;
-    },
+    setActiveId(state, action: PayloadAction<TOffer['id'] | undefined>) {
+      state.activeId = action.payload;
+    }
   },
   selectors: {
-    city: (state: OffersState) => state.city,
-    offers: (state: OffersState) => state.offers,
+    activeId: (state) => state.activeId,
+    offers: (state) => state.offers,
   }
 });
 
 const offersActions = offersSlice.actions;
-const offersSelectors = {
-  ...offersSlice.selectors,
-  cityOffers: createSelector(offersSlice.selectors.offers, offersSlice.selectors.city, (allOffers, city) =>
-    allOffers.filter((offer) => offer.city.name === city),
-  ),
-};
+const offersSelectors = offersSlice.selectors;
 
 export { offersActions, offersSlice, offersSelectors };
 
