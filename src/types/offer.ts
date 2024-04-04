@@ -1,7 +1,7 @@
 export type TLocationCoordinates = {
-latitude: number;
-longitude: number;
-zoom: number;
+  latitude: number;
+  longitude: number;
+  zoom: number;
 };
 
 export type TCity = {
@@ -11,27 +11,33 @@ export type TCity = {
 };
 
 export type THost = {
-name: string;
-avatarUrl: string;
-isPro: boolean;
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
 }
 
-export type TOffer = {
-id: string;
-title: string;
-type: string;
-price: number;
-city: TCity;
-location: TLocationCoordinates;
-isFavorite: boolean;
-isPremium: boolean;
-rating: number;
-description: string;
-bedrooms: number;
-goods: string[];
-host: THost;
-images: string[];
-maxAdults: number;
-previewImage?: string;
-};
+
+interface ServerOffer {
+  city: TCity;
+  id: string;
+  isFavorite: boolean;
+  isPremium: boolean;
+  location: TLocationCoordinates; // server location???
+  previewImage?: string;
+  price: number;
+  rating: number;
+  title: string;
+  type: string;
+}
+
+type FullOffer = ServerOffer & {
+  bedrooms: number;
+  description: string;
+  goods: string[];
+  host: THost;
+  images: string[];
+  maxAdults: number;
+}
+
+export type { FullOffer, ServerOffer };
 

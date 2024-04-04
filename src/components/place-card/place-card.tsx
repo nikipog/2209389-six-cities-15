@@ -1,13 +1,13 @@
 import { Link, generatePath } from 'react-router-dom';
 import { MouseEvent } from 'react';
-import { TOffer } from '../../types/offer';
+import { ServerOffer } from '../../types/offer';
 import { AppRoute, RATING_WIDTH_STEP } from '../../const';
 
 // type PlaceCardProps = TOffer & Pick<ComponentProps<'article'>, 'onMouseEnter' | 'onMouseLeave'> & {
 //   className? : string;
 // };
 type PlaceCardProps = {
-  place: TOffer;
+  place: ServerOffer;
   onMouseEnter?: (evt: MouseEvent<HTMLElement>) => void;
   onMouseLeave?: (evt: MouseEvent<HTMLElement>) => void;
   className?: string;

@@ -1,5 +1,5 @@
 import { Icon, Marker, layerGroup } from 'leaflet';
-import { TOffer } from '../../types/offer';
+import { ServerOffer } from '../../types/offer';
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/use-map';
 import { CITIES, CityName, URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
@@ -8,7 +8,7 @@ import { offersSelectors } from '../../store/slices/offers';
 
 type MapProps = {
   city: CityName;
-  offers: TOffer[];
+  offers: ServerOffer[];
   place?: 'cities' | 'offer';
 };
 
