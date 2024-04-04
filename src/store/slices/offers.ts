@@ -42,7 +42,7 @@ const offersSlice = createSlice({
   }
 });
 
-const offersActions = offersSlice.actions;
+const offersActions = {...offersSlice.actions, fetchAllOffers};
 const offersSelectors = offersSlice.selectors;
 
 export { offersActions, offersSlice, offersSelectors };
