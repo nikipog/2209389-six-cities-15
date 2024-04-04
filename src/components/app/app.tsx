@@ -1,5 +1,9 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useActionCreators } from '../../hooks/store';
 import MainPage from '../../pages/main-page/main-page';
 import LoginPage from '../../pages/login-page/login-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
@@ -10,6 +14,7 @@ import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 import { getAuthorizationStatus } from '../../mocks/authorization-status';
 import { TReviewType } from '../../types/reviews';
+import { offersActions } from '../../store/slices/offers';
 
 //импорты из библиотек желательно расположить в самом начале
 
@@ -17,15 +22,29 @@ type AppPageProps = {
   reviews: TReviewType[];
 }
 
-function App({ reviews}: AppPageProps): JSX.Element {
+const TOASTIFY_ERROR_MESSAGE = 'Не удалось загрузить предложения. Попробуйте перезагрузить страницу';
+
+function App({ reviews }: AppPageProps): JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
+
+  const { fetchAllOffers } = useActionCreators(offersActions);
+  useEffect(() => {
+    fetchAllOffers()
+      .unwrap()
+      .catch(() => {
+        toast.error(TOASTIFY_ERROR_MESSAGE);
+      });
+
+  }, [fetchAllOffers]);
+
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <ToastContainer />
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<Layout/>}
+            element={<Layout />}
           >
             <Route index element={<Navigate to={`/${DEFAULT_CITY.id}`} />} />
             {CITIES.map((city) => (
@@ -35,7 +54,7 @@ function App({ reviews}: AppPageProps): JSX.Element {
               path={AppRoute.Login}
               element={(
                 <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
-                  <LoginPage/>
+                  <LoginPage />
                 </PrivateRoute>
               )}
 
@@ -44,18 +63,18 @@ function App({ reviews}: AppPageProps): JSX.Element {
               path={AppRoute.Favorites}
               element={(
                 <PrivateRoute authorizationStatus={authorizationStatus}>
-                  <FavoritesPage/>
+                  <FavoritesPage />
                 </PrivateRoute>
               )}
             />
             <Route
               path={AppRoute.Offer}
-              element={<OfferPage reviews = {reviews}/>}
+              element={<OfferPage reviews={reviews} />}
             />
           </Route>
           <Route
             path='*'
-            element={<NotFoundPage/>}
+            element={<NotFoundPage />}
           />
         </Routes>
       </BrowserRouter>

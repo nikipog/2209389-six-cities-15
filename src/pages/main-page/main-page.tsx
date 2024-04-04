@@ -8,19 +8,26 @@ import SixCitiesList from '../../components/six-cities-list/six-cities-list';
 import CardListEmpty from '../../components/card-list-empty/card-list-empty';
 import { SortOption } from '../../components/sort';
 import Sort from '../../components/sort/sort';
-import { CityName, CITIES } from '../../const';
+import { CityName, CITIES, RequestStatus } from '../../const';
 import { useAppSelector } from '../../hooks/store';
 import { offersSelectors } from '../../store/slices/offers';
-import { TOffer } from '../../types/offer';
+import { ServerOffer } from '../../types/offer';
 
-
-type MainPageProps = {
+interface MainPageProps {
   city: CityName;
-};
+}
 
 function MainPage({ city }: MainPageProps): JSX.Element {
 
   const offers = useAppSelector(offersSelectors.offers);
+
+  const status = useAppSelector(offersSelectors.offersStatus);
+
+  const [activeSort, setActiveSort] = useState(SortOption.Popular);
+
+  if (status === RequestStatus.Loading) {
+    return <div> Loading ... </div>;
+  }
 
   //можно использовать вместе с useMemo и в favorites
   const offersByCity = Object.groupBy(offers, (offer) => offer.city.name);
@@ -31,22 +38,21 @@ function MainPage({ city }: MainPageProps): JSX.Element {
   const isEmpty = currentOffers.length === 0;
   const isActive = (item: string) => item === city ? 'tabs__item--active' : '';
 
-  const [activeSort, setActiveSort] = useState(SortOption.Popular);
 
   let sortedOffers = currentOffers;
 
   if (activeSort === SortOption.PriceLowToHigh) {
-    sortedOffers = currentOffers.toSorted((a: TOffer, b: TOffer) => a.price - b.price);
+    sortedOffers = currentOffers.toSorted((a: ServerOffer, b: ServerOffer) => a.price - b.price);
   }
   if (activeSort === SortOption.PriceHighToLow) {
-    sortedOffers = currentOffers.toSorted((a: TOffer, b: TOffer) => b.price - a.price);
+    sortedOffers = currentOffers.toSorted((a: ServerOffer, b: ServerOffer) => b.price - a.price);
   }
   if (activeSort === SortOption.TopRatedFirst) {
-    sortedOffers = currentOffers.toSorted((a: TOffer, b: TOffer) => b.rating - a.rating);
+    sortedOffers = currentOffers.toSorted((a: ServerOffer, b: ServerOffer) => b.rating - a.rating);
   }
 
   return (
-    <main className={classNames('page__main', ' ', {
+    <main className={classNames('page__main', 'page__main--index', {
       'page__main--index-empty': isEmpty,
     })}
     >

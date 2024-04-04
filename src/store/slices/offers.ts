@@ -1,32 +1,48 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import type { TOffer } from '../../types/offer';
+import { RequestStatus } from '../../const';
+import { ServerOffer, FullOffer } from '../../types/offer';
+import { fetchAllOffers } from '../thunks/offers';
 
-import offers from '../../mocks/places-mock';
 
-type OffersState = {
-  activeId?: TOffer['id'];
-  offers: TOffer[];
-};
+interface OffersState {
+  activeId?: FullOffer['id'] | null;
+  offers: ServerOffer[];
+  status: RequestStatus;
+}
 
 const initialState: OffersState = {
-  activeId: undefined,
-  offers,
+  activeId: null,
+  offers: [],
+  status: RequestStatus.Idle
 };
 const offersSlice = createSlice({
+  extraReducers: (builder) =>
+    builder
+      .addCase(fetchAllOffers.pending, (state) => {
+        state.status = RequestStatus.Loading;
+      })
+      .addCase(fetchAllOffers.fulfilled, (state, action) => {
+        state.status = RequestStatus.Success;
+        state.offers = action.payload;
+      })
+      .addCase(fetchAllOffers.rejected, (state) => {
+        state.status = RequestStatus.Failed;
+      }),
   initialState,
   name: 'offers',
   reducers: {
-    setActiveId(state, action: PayloadAction<TOffer['id'] | undefined>) {
+    setActiveId(state, action: PayloadAction<FullOffer['id'] | undefined>) {
       state.activeId = action.payload;
     }
   },
   selectors: {
-    activeId: (state) => state.activeId,
-    offers: (state) => state.offers,
+    activeId: (state: OffersState) => state.activeId,
+    offers: (state: OffersState) => state.offers,
+    offersStatus: (state: OffersState) => state.status
   }
 });
 
-const offersActions = offersSlice.actions;
+const offersActions = {...offersSlice.actions, fetchAllOffers};
 const offersSelectors = offersSlice.selectors;
 
 export { offersActions, offersSlice, offersSelectors };

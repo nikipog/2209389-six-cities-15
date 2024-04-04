@@ -1,11 +1,11 @@
 import { MouseEvent } from 'react';
-import { TOffer } from '../../types/offer';
+import { ServerOffer } from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
 import { useActionCreators } from '../../hooks/store';
 import { offersActions } from '../../store/slices/offers';
 
 type CitiesPlacesListProps = {
-  currentOffers: TOffer[];
+  currentOffers: ServerOffer[];
   className: string;
 }
 

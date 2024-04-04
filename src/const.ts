@@ -101,6 +101,16 @@ const MapSetting = {
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
 };
 
+export const enum RequestStatus { Idle, Loading, Success, Failed}
+
+export const Endpoint = {
+  Comments: '/comments',
+  Favorite: 'favorite',
+  Login: '/login',
+  Logout: '/logout',
+  Offers: '/offers'
+};
+
 
 export {
   Settings, CITIES, AppRoute, AuthorizationStatus,
