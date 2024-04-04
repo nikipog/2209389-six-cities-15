@@ -17,7 +17,6 @@ interface MainPageProps {
   city: CityName;
 }
 
-
 function MainPage({ city }: MainPageProps): JSX.Element {
 
   const offers = useAppSelector(offersSelectors.offers);
