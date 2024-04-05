@@ -13,18 +13,14 @@ import { AppRoute, CITIES, DEFAULT_CITY } from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 import { getAuthorizationStatus } from '../../mocks/authorization-status';
-import { TReviewType } from '../../types/reviews';
 import { offersActions } from '../../store/slices/offers';
 
 //импорты из библиотек желательно расположить в самом начале
 
-type AppPageProps = {
-  reviews: TReviewType[];
-}
 
 const TOASTIFY_ERROR_MESSAGE = 'Не удалось загрузить предложения. Попробуйте перезагрузить страницу';
 
-function App({ reviews }: AppPageProps): JSX.Element {
+function App(): JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
 
   const { fetchAllOffers } = useActionCreators(offersActions);
@@ -69,7 +65,7 @@ function App({ reviews }: AppPageProps): JSX.Element {
             />
             <Route
               path={AppRoute.Offer}
-              element={<OfferPage reviews={reviews} />}
+              element={<OfferPage/>}
             />
           </Route>
           <Route

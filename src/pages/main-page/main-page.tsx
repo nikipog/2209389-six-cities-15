@@ -25,6 +25,8 @@ function MainPage({ city }: MainPageProps): JSX.Element {
 
   const [activeSort, setActiveSort] = useState(SortOption.Popular);
 
+  const [hoveredOfferId, setHoveredOfferId] = useState<string | undefined>(undefined);
+
   if (status === RequestStatus.Loading) {
     return <div> Loading ... </div>;
   }
@@ -84,12 +86,14 @@ function MainPage({ city }: MainPageProps): JSX.Element {
                 <CitiesPlacesList
                   currentOffers={sortedOffers}
                   className='cities__places-list places__list tabs__content'
+                  setHoveredOfferId={setHoveredOfferId}
                 />
               </section>
               <div className="cities__right-section">
                 <Map
                   city={city}
                   offers={currentOffers}
+                  hoveredOfferId={hoveredOfferId}
                 />
               </div>
             </>

@@ -1,8 +1,8 @@
-import { TReviewType } from '../../types/reviews';
+import { Review } from '../../types/reviews';
 
 const RATING_WIDTH_STEP = 20;
 type reviewProps = {
-  reviews: TReviewType[];
+  reviews: Review[];
 }
 
 function ReviewsList ({reviews} : reviewProps) : JSX.Element {
