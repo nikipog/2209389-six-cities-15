@@ -43,7 +43,8 @@ export const reviewSlice = createSlice({
   name: 'reviews',
   reducers: {},
   selectors: {
-    reviews: (state : ReviewState) => state.items
+    reviews: (state : ReviewState) => state.items,
+    reviewsStatus: (state : ReviewState) => state.status
   }
 });
 

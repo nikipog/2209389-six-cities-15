@@ -3,11 +3,13 @@ import { createApi } from '../services/api';
 import { offersSlice } from './slices/offers';
 import { offerSlice } from './slices/offer';
 import { reviewSlice } from './slices/reviews';
+import { userSlice } from './slices/user';
 
 const reducer = combineReducers({
   [offersSlice.name]: offersSlice.reducer,
   [offerSlice.name]: offerSlice.reducer,
-  [reviewSlice.name]: reviewSlice.reducer
+  [reviewSlice.name]: reviewSlice.reducer,
+  [userSlice.name]: userSlice.reducer
 
 });
 
