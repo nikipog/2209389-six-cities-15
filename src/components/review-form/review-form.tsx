@@ -1,21 +1,41 @@
-import { Fragment, ReactEventHandler, useState } from 'react';
+import { FormEvent, Fragment, ReactEventHandler, useState } from 'react';
 import { RATINGS } from '../../const';
+import { useActionCreators } from '../../hooks/store';
+import { commentsThunk } from '../../store/thunks/comments';
 
 const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 300;
 
 type TChangeHandler = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>
 
+type ReviewFormProps = {
+  offerId: string;
+}
 
-function ReviewForm () : JSX.Element {
+
+function ReviewForm ({offerId} : ReviewFormProps) : JSX.Element {
   const [review, setReview] = useState({rating: 0, review: ''});
   const handleChange: TChangeHandler = (evt) => {
     const {name, value} = evt.currentTarget;
     setReview({...review, [name]:value});
   };
+  const { postComment } = useActionCreators(commentsThunk);
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    // Использую offerId из пропсов и состояние вашей формы для отправки комментария
+    postComment({
+      offerId,
+      body: {
+        comment: review.review,
+        rating: Number(review.rating),
+      }
+    });
+  };
+
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
                 Your review
       </label>

@@ -12,8 +12,8 @@ import CitiesPlacesList from '../../components/cities-places-list/cities-places-
 import { reviewActions, reviewSelector } from '../../store/slices/reviews';
 import { offerActions, offerSelector } from '../../store/slices/offer';
 import { useAppSelector, useActionCreators } from '../../hooks/store';
-import { AuthorizationStatus, RATING_WIDTH_STEP, RequestStatus } from '../../const';
-import { getAuthorizationStatus } from '../../mocks/authorization-status';
+import { RATING_WIDTH_STEP, RequestStatus } from '../../const';
+import { useAuth } from '../../hooks/user-authorization';
 
 const MIN_BEDROOMS_COUNT = 1;
 const MIN_ADULTS_COUNT = 1;
@@ -32,6 +32,8 @@ function OfferPage(): JSX.Element {
 
   // из УРЛа достаем айдишник и с его помощью отправляем запрос на сервер
   const { id } = useParams<{ id: string }>();
+
+  const authorizationStatus = useAuth();
 
   useEffect(() => {
     //promise all - для одновременной отработки промисов
@@ -54,16 +56,8 @@ function OfferPage(): JSX.Element {
   }
 
 
-  const authorizationStatus = getAuthorizationStatus();
-  // const offers = useAppSelector(offersSelectors.offers);
-  //const currentPlace: ServerOffer | undefined = offerPage.find((place: ServerOffer) => place.id === id);
-  // if (typeof currentPlace === 'undefined') {
-  //   return <NotFoundPage/>;
-  // }
+  const { title, isPremium, isFavorite, rating, type, price, images, bedrooms, maxAdults, goods, host, description, id : offerId } = offerPage;
 
-  const { title, isPremium, isFavorite, rating, type, price, images, bedrooms, maxAdults, goods, host, description } = offerPage;
-
-  // const cardsWithoutCurrentOffer = offers.filter((offer) => offer.id !== offerPage.id);
   const nearbyCards = nearbyOffers.slice(0, 3);
   const nearOffersPlusCurrent = [offerPage, ...nearbyCards];
 
@@ -161,7 +155,7 @@ function OfferPage(): JSX.Element {
               </h2>
               <ReviewsList reviews={reviews} />
               {
-                authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />
+                authorizationStatus && <ReviewForm offerId = {offerId}/>
               }
             </section>
           </div>

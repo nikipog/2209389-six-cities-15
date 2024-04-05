@@ -44,7 +44,7 @@ export const userSlice = createSlice({
     builder.addCase(login.pending, processLoading);
     builder.addCase(logout.fulfilled, (state) => {
       state.info = null;
-      state.status = AuthorizationStatus.NoAuth;
+      state.status = AuthorizationStatus.Unknown;
     });
   },
   initialState,
@@ -56,5 +56,11 @@ export const userSlice = createSlice({
     userRequestStatus: (state : UserState) => state.requestStatus
   }
 });
+
+export const userActions = {
+  checkAuth,
+  login,
+  logout
+};
 
 export const userSelector = userSlice.selectors;

@@ -10,10 +10,12 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import { AppRoute, CITIES, DEFAULT_CITY } from '../../const';
-import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
-import { getAuthorizationStatus } from '../../mocks/authorization-status';
 import { offersActions } from '../../store/slices/offers';
+import { getToken } from '../../services/token';
+import { userActions } from '../../store/slices/user';
+import ProtectedRoute from '../private-route/protected-route';
+
 
 //импорты из библиотек желательно расположить в самом начале
 
@@ -21,9 +23,11 @@ import { offersActions } from '../../store/slices/offers';
 const TOASTIFY_ERROR_MESSAGE = 'Не удалось загрузить предложения. Попробуйте перезагрузить страницу';
 
 function App(): JSX.Element {
-  const authorizationStatus = getAuthorizationStatus();
 
   const { fetchAllOffers } = useActionCreators(offersActions);
+
+  const {checkAuth} = useActionCreators(userActions);
+
   useEffect(() => {
     fetchAllOffers()
       .unwrap()
@@ -32,6 +36,14 @@ function App(): JSX.Element {
       });
 
   }, [fetchAllOffers]);
+
+  // сохраняем токен и проверяем его, чтобы не требовать повторной авторизации
+  const token = getToken();
+  useEffect(() => {
+    if (token) {
+      checkAuth();
+    }
+  }, [token, checkAuth]);
 
   return (
     <HelmetProvider>
@@ -49,18 +61,18 @@ function App(): JSX.Element {
             <Route
               path={AppRoute.Login}
               element={(
-                <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
+                <ProtectedRoute onlyAuth>
                   <LoginPage />
-                </PrivateRoute>
+                </ProtectedRoute>
               )}
 
             />
             <Route
               path={AppRoute.Favorites}
               element={(
-                <PrivateRoute authorizationStatus={authorizationStatus}>
+                <ProtectedRoute>
                   <FavoritesPage />
-                </PrivateRoute>
+                </ProtectedRoute>
               )}
             />
             <Route
