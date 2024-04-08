@@ -26,7 +26,7 @@ function App(): JSX.Element {
 
   const { fetchAllOffers } = useActionCreators(offersActions);
 
-  const {checkAuth} = useActionCreators(userActions);
+  const { checkAuth } = useActionCreators(userActions);
 
   useEffect(() => {
     fetchAllOffers()
@@ -77,7 +77,11 @@ function App(): JSX.Element {
             />
             <Route
               path={AppRoute.Offer}
-              element={<OfferPage/>}
+              element={(
+                <ProtectedRoute>
+                  <OfferPage />
+                </ProtectedRoute>
+              )}
             />
           </Route>
           <Route
