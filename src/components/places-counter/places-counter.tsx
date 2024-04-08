@@ -1,8 +1,8 @@
 import { CityName } from '../../const';
-import { TOffer } from '../../types/offer';
+import { ServerOffer } from '../../types/offer';
 
 type PlacesCounterComponentProps = {
-  placesToStay: TOffer[];
+  placesToStay: ServerOffer[];
   currentCity: CityName;
 }
 
