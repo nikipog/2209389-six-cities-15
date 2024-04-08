@@ -9,6 +9,7 @@ import ReviewsList from '../../components/review-list/reviews-list';
 import ReviewForm from '../../components/review-form/review-form';
 import Map from '../../components/map/map';
 import CitiesPlacesList from '../../components/cities-places-list/cities-places-list';
+import { FavoriteButton } from '../../components/favorites-button/favorites-button';
 import { reviewActions, reviewSelector } from '../../store/slices/reviews';
 import { offerActions, offerSelector } from '../../store/slices/offer';
 import { useAppSelector, useActionCreators } from '../../hooks/store';
@@ -56,7 +57,7 @@ function OfferPage(): JSX.Element {
   }
 
 
-  const { title, isPremium, isFavorite, rating, type, price, images, bedrooms, maxAdults, goods, host, description, id : offerId } = offerPage;
+  const { title, isPremium, rating, type, price, images, bedrooms, maxAdults, goods, host, description, id: offerId } = offerPage;
 
   const nearbyCards = nearbyOffers.slice(0, 3);
   const nearOffersPlusCurrent = [offerPage, ...nearbyCards];
@@ -86,15 +87,11 @@ function OfferPage(): JSX.Element {
               <h1 className="offer__name">
                 {title}
               </h1>
-              <button
-                className={`offer__bookmark-button  ${isFavorite && 'offer__bookmark-button--active'} button`}
-                type="button"
-              >
-                <svg className="offer__bookmark-icon" width={31} height={33}>
-                  <use xlinkHref="#icon-bookmark" />
-                </svg>
-                <span className="visually-hidden">To bookmarks</span>
-              </button>
+              <FavoriteButton
+                offerId={offerId}
+                bemBlock="offer"
+                width={31} // Большие размеры для страницы оффера
+              />
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
@@ -155,7 +152,7 @@ function OfferPage(): JSX.Element {
               </h2>
               <ReviewsList reviews={reviews} />
               {
-                authorizationStatus && <ReviewForm offerId = {offerId}/>
+                authorizationStatus && <ReviewForm offerId={offerId} />
               }
             </section>
           </div>

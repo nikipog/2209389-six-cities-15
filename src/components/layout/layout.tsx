@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/user-authorization';
 import { getLayoutState } from './utils';
 import { useActionCreators, useAppSelector } from '../../hooks/store';
 import { userActions, userSelector } from '../../store/slices/user';
+import { useFavoriteCount } from '../../hooks/use-favorite-count';
 
 
 export default function Layout () {
@@ -13,6 +14,7 @@ export default function Layout () {
 
   const user = useAppSelector(userSelector.userInfo);
   const {logout} = useActionCreators(userActions);
+  const favoriteCount = useFavoriteCount();
   return (
     <div className={`page${rootClassName}`}>
       <header className="header">
@@ -41,7 +43,7 @@ export default function Layout () {
                           authorizationStatus ? (
                             <>
                               <span className="header__user-name user__name">{user?.email}</span>
-                              <span className="header__favorite-count">3</span>
+                              <span className="header__favorite-count">{favoriteCount}</span>
                             </>
                           ) : <span className="header__login">Sign in</span>
                         }

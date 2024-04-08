@@ -103,6 +103,11 @@ const MapSetting = {
 
 export const enum RequestStatus { Idle, Loading, Success, Failed}
 
+export enum FavoritesStatus {
+  Added = 1,
+  Removed = 0
+}
+
 export const Endpoint = {
   Comments: '/comments',
   Favorite: 'favorite',

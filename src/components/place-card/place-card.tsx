@@ -2,10 +2,9 @@ import { Link, generatePath } from 'react-router-dom';
 import { MouseEvent } from 'react';
 import { ServerOffer } from '../../types/offer';
 import { AppRoute, RATING_WIDTH_STEP } from '../../const';
+import { FavoriteButton } from '../favorites-button/favorites-button';
 
-// type PlaceCardProps = TOffer & Pick<ComponentProps<'article'>, 'onMouseEnter' | 'onMouseLeave'> & {
-//   className? : string;
-// };
+
 type PlaceCardProps = {
   place: ServerOffer;
   onMouseEnter?: (evt: MouseEvent<HTMLElement>) => void;
@@ -14,8 +13,8 @@ type PlaceCardProps = {
 };
 
 
-function PlaceCard({place, className = 'cities', onMouseEnter, onMouseLeave } : PlaceCardProps): JSX.Element {
-  const {id, isPremium, previewImage, price, rating, title, type, isFavorite = false} = place;
+function PlaceCard({ place, className = 'cities', onMouseEnter, onMouseLeave }: PlaceCardProps): JSX.Element {
+  const { id, isPremium, previewImage, price, rating, title, type } = place;
   const url = generatePath(AppRoute.Offer, { id });
 
 
@@ -27,9 +26,9 @@ function PlaceCard({place, className = 'cities', onMouseEnter, onMouseLeave } : 
       onMouseLeave={onMouseLeave}
     >
       {isPremium &&
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>}
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>}
       <div className={`${className}__image-wrapper place-card__image-wrapper`}>
         <Link
           to={url}
@@ -43,12 +42,11 @@ function PlaceCard({place, className = 'cities', onMouseEnter, onMouseLeave } : 
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
-          </button>
+          <FavoriteButton
+            offerId={id.toString()}
+            bemBlock="place-card"
+            width={18}
+          />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
