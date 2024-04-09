@@ -31,6 +31,7 @@ export const reviewSlice = createSlice({
     //также есть синхронный экшен на создание комментариев
     builder.addCase(commentsThunk.postComment.fulfilled, (state, action) => {
       state.items.push(action.payload);
+      state.status = RequestStatus.Success;
     });
     builder.addCase(commentsThunk.postComment.rejected, (state) => {
       state.status = RequestStatus.Failed;
@@ -43,8 +44,8 @@ export const reviewSlice = createSlice({
   name: 'reviews',
   reducers: {},
   selectors: {
-    reviews: (state : ReviewState) => state.items,
-    reviewsStatus: (state : ReviewState) => state.status
+    reviews: (state: ReviewState) => state.items,
+    reviewsStatus: (state: ReviewState) => state.status
   }
 });
 
