@@ -11,7 +11,6 @@ import Sort from '../../components/sort/sort';
 import { CityName, CITIES, RequestStatus } from '../../const';
 import { useAppSelector } from '../../hooks/store';
 import { offersSelectors } from '../../store/slices/offers';
-import { ServerOffer } from '../../types/offer';
 
 interface MainPageProps {
   city: CityName;
@@ -24,6 +23,8 @@ function MainPage({ city }: MainPageProps): JSX.Element {
   const status = useAppSelector(offersSelectors.offersStatus);
 
   const [activeSort, setActiveSort] = useState(SortOption.Popular);
+
+  const [hoveredOfferId, setHoveredOfferId] = useState<string | undefined>(undefined);
 
   if (status === RequestStatus.Loading) {
     return <div> Loading ... </div>;
@@ -42,13 +43,13 @@ function MainPage({ city }: MainPageProps): JSX.Element {
   let sortedOffers = currentOffers;
 
   if (activeSort === SortOption.PriceLowToHigh) {
-    sortedOffers = currentOffers.toSorted((a: ServerOffer, b: ServerOffer) => a.price - b.price);
+    sortedOffers = currentOffers.toSorted((a, b) => a.price - b.price);
   }
   if (activeSort === SortOption.PriceHighToLow) {
-    sortedOffers = currentOffers.toSorted((a: ServerOffer, b: ServerOffer) => b.price - a.price);
+    sortedOffers = currentOffers.toSorted((a, b) => b.price - a.price);
   }
   if (activeSort === SortOption.TopRatedFirst) {
-    sortedOffers = currentOffers.toSorted((a: ServerOffer, b: ServerOffer) => b.rating - a.rating);
+    sortedOffers = currentOffers.toSorted((a, b) => b.rating - a.rating);
   }
 
   return (
@@ -84,12 +85,14 @@ function MainPage({ city }: MainPageProps): JSX.Element {
                 <CitiesPlacesList
                   currentOffers={sortedOffers}
                   className='cities__places-list places__list tabs__content'
+                  setHoveredOfferId={setHoveredOfferId}
                 />
               </section>
               <div className="cities__right-section">
                 <Map
                   city={city}
                   offers={currentOffers}
+                  hoveredOfferId={hoveredOfferId}
                 />
               </div>
             </>

@@ -1,27 +1,28 @@
 import { MouseEvent } from 'react';
 import { ServerOffer } from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
-import { useActionCreators } from '../../hooks/store';
-import { offersActions } from '../../store/slices/offers';
 
 type CitiesPlacesListProps = {
   currentOffers: ServerOffer[];
   className: string;
+  setHoveredOfferId?: (id: string | undefined) => void;
 }
 
-function CitiesPlacesList ({currentOffers, className} : CitiesPlacesListProps) : JSX.Element {
-
-  const { setActiveId } = useActionCreators(offersActions);
+function CitiesPlacesList ({currentOffers, className, setHoveredOfferId} : CitiesPlacesListProps) : JSX.Element {
 
 
   const handleMouseEnter = (evt: MouseEvent<HTMLElement>) => {
     const target = evt.currentTarget as HTMLElement;
     const id = target.dataset.id;
-    setActiveId(id);
+    if (setHoveredOfferId){
+      setHoveredOfferId(id);
+    }
   };
 
   const handleMouseLeave = () => {
-    setActiveId(undefined);
+    if (setHoveredOfferId) {
+      setHoveredOfferId(undefined);
+    }
   };
 
   return (

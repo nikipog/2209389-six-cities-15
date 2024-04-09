@@ -89,10 +89,10 @@ enum AuthorizationStatus {
 }
 
 const URL_MARKER_DEFAULT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+  'img/pin.svg';
 
 const URL_MARKER_CURRENT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+  'img/pin-active.svg';
 
 const MapSetting = {
   Layer:
@@ -102,6 +102,11 @@ const MapSetting = {
 };
 
 export const enum RequestStatus { Idle, Loading, Success, Failed}
+
+export enum FavoritesStatus {
+  Added = 1,
+  Removed = 0
+}
 
 export const Endpoint = {
   Comments: '/comments',

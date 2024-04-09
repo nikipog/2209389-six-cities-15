@@ -1,13 +1,20 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
-import { getAuthorizationStatus } from '../../mocks/authorization-status';
+import { AppRoute } from '../../const';
+import { useAuth } from '../../hooks/user-authorization';
 import { getLayoutState } from './utils';
+import { useActionCreators, useAppSelector } from '../../hooks/store';
+import { userActions, userSelector } from '../../store/slices/user';
+import { useFavoriteCount } from '../../hooks/use-favorite-count';
 
 
 export default function Layout () {
   const {pathname} = useLocation();
   const {rootClassName, linkClassName, shouldRenderUser, shouldRenderFooter} = getLayoutState (pathname as AppRoute);
-  const authorizationStatus = getAuthorizationStatus();
+  const authorizationStatus = useAuth();
+
+  const user = useAppSelector(userSelector.userInfo);
+  const {logout} = useActionCreators(userActions);
+  const favoriteCount = useFavoriteCount();
   return (
     <div className={`page${rootClassName}`}>
       <header className="header">
@@ -33,21 +40,24 @@ export default function Layout () {
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>
                         {
-                          authorizationStatus === AuthorizationStatus.Auth ? (
+                          authorizationStatus ? (
                             <>
-                              <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                              <span className="header__favorite-count">3</span>
+                              <span className="header__user-name user__name">{user?.email}</span>
+                              <span className="header__favorite-count">{favoriteCount}</span>
                             </>
                           ) : <span className="header__login">Sign in</span>
                         }
                       </Link>
                     </li>
                     {
-                      authorizationStatus === AuthorizationStatus.Auth ? (
+                      authorizationStatus ? (
                         <li className="header__nav-item">
                           <Link
                             className="header__nav-link"
-                            to={AppRoute.Main}
+                            onClick={() => {
+                              logout();
+                            }}
+                            to='#'
                           >
                             <span className="header__signout">Sign out</span>
                           </Link>

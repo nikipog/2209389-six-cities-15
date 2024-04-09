@@ -1,45 +1,66 @@
 import { Helmet } from 'react-helmet-async';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import NotFoundPage from '../not-found-page/not-found-page';
 import PlaceGalleryContainer from '../../components/place-gallery-container/place-gallery-container';
 import PlaceImage from '../../components/place-image/place-image';
 import FacilitiesInsidePlace from '../../components/facilities-inside-place/facilities-inside-place';
 import ReviewsList from '../../components/review-list/reviews-list';
-import { getAuthorizationStatus } from '../../mocks/authorization-status';
-import { AuthorizationStatus, RATING_WIDTH_STEP } from '../../const';
-import { TOffer } from '../../types/offer';
-import { useParams } from 'react-router-dom';
-import NotFoundPage from '../not-found-page/not-found-page';
-import { TReviewType } from '../../types/reviews';
 import ReviewForm from '../../components/review-form/review-form';
 import Map from '../../components/map/map';
 import CitiesPlacesList from '../../components/cities-places-list/cities-places-list';
-import { useAppSelector } from '../../hooks/store';
-import { offersSelectors } from '../../store/slices/offers';
+import { FavoriteButton } from '../../components/favorites-button/favorites-button';
+import { reviewActions, reviewSelector } from '../../store/slices/reviews';
+import { offerActions, offerSelector } from '../../store/slices/offer';
+import { useAppSelector, useActionCreators } from '../../hooks/store';
+import { RATING_WIDTH_STEP, RequestStatus } from '../../const';
+import { useAuth } from '../../hooks/user-authorization';
 
 const MIN_BEDROOMS_COUNT = 1;
 const MIN_ADULTS_COUNT = 1;
 
-type OfferPageProps = {
 
-  reviews: TReviewType[];
-}
+function OfferPage(): JSX.Element {
+  // получение информации об оффере
+  const offerPage = useAppSelector(offerSelector.offer);
+  const status = useAppSelector(offerSelector.offerStatus);
+  const nearbyOffers = useAppSelector(offerSelector.nearbyOffers);
+  const reviews = useAppSelector(reviewSelector.reviews);
+  //достаем асинхронные экшены которые делают запросы на комменты, оффер и список
+  //предложений рядом
+  const { fetchNearBy, fetchOffer } = useActionCreators(offerActions);
+  const { fetchComments } = useActionCreators(reviewActions);
 
-function OfferPage({ reviews} : OfferPageProps) : JSX.Element {
-  const authorizationStatus = getAuthorizationStatus();
+  // из УРЛа достаем айдишник и с его помощью отправляем запрос на сервер
   const { id } = useParams<{ id: string }>();
 
-  const offers = useAppSelector(offersSelectors.offers);
+  const authorizationStatus = useAuth();
 
-  const currentPlace: TOffer | undefined = offers.find((place: TOffer) => place.id === id);
-  if (typeof currentPlace === 'undefined') {
-    return <NotFoundPage/>;
+  useEffect(() => {
+    //promise all - для одновременной отработки промисов
+    Promise.all([
+      fetchOffer(id as string),
+      fetchNearBy(id as string),
+      fetchComments(id as string)]);
+  },
+  //в зависимостях сами методы и идентификатор полученный из useParams
+  [fetchOffer, fetchNearBy, fetchComments, id]
+  );
+
+  if (status === RequestStatus.Loading) {
+    return <div>Loading ...</div>;
+  }
+  // в случае если fail или ничего не найдено:
+  //(запрос детального оффера useAppSelector(offerSelector.offer вернул null)
+  if (status === RequestStatus.Failed || !offerPage) {
+    return <NotFoundPage />;
   }
 
-  const {title, isPremium, isFavorite, rating, type, price, images, bedrooms, maxAdults, goods, host, description } = currentPlace;
 
-  const cardsWithoutCurrentOffer = offers.filter((offer) => offer.id !== currentPlace.id);
-  const nearbyCards = cardsWithoutCurrentOffer.slice(0, 3);
-  const nearOffersPlusCurrent = [currentPlace, ...nearbyCards];
+  const { title, isPremium, rating, type, price, images, bedrooms, maxAdults, goods, host, description, id: offerId } = offerPage;
 
+  const nearbyCards = nearbyOffers.slice(0, 3);
+  const nearOffersPlusCurrent = [offerPage, ...nearbyCards];
 
   return (
     <main className="page__main page__main--offer">
@@ -65,15 +86,11 @@ function OfferPage({ reviews} : OfferPageProps) : JSX.Element {
               <h1 className="offer__name">
                 {title}
               </h1>
-              <button
-                className={`offer__bookmark-button  ${isFavorite && 'offer__bookmark-button--active'} button`}
-                type="button"
-              >
-                <svg className="offer__bookmark-icon" width={31} height={33}>
-                  <use xlinkHref="#icon-bookmark" />
-                </svg>
-                <span className="visually-hidden">To bookmarks</span>
-              </button>
+              <FavoriteButton
+                offerId={offerId}
+                bemBlock="offer"
+                width={31} // Большие размеры для страницы оффера
+              />
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
@@ -89,7 +106,7 @@ function OfferPage({ reviews} : OfferPageProps) : JSX.Element {
                 {bedrooms > MIN_BEDROOMS_COUNT ? ' bedrooms' : ' bedroom'}
               </li>
               <li className="offer__feature offer__feature--adults">
-              Max {maxAdults}
+                Max {maxAdults}
                 {maxAdults > MIN_ADULTS_COUNT ? ' adults' : ' adult'}
               </li>
             </ul>
@@ -121,34 +138,30 @@ function OfferPage({ reviews} : OfferPageProps) : JSX.Element {
                 <p className="offer__text">
                   {description}
                 </p>
-                <p className="offer__text">
-                An independent House, strategically located between Rembrand
-                Square and National Opera, but where the bustle of the city
-                comes to rest in this alley flowery and colorful.
-                </p>
               </div>
             </div>
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">
-              Reviews · <span className="reviews__amount">{reviews.length}</span>
+                Reviews · <span className="reviews__amount">{reviews.length}</span>
               </h2>
-              <ReviewsList reviews={reviews}/>
+              <ReviewsList reviews={reviews} />
               {
-                authorizationStatus === AuthorizationStatus.Auth && <ReviewForm/>
+                authorizationStatus && <ReviewForm offerId={offerId} />
               }
             </section>
           </div>
         </div>
         <Map
           offers={nearOffersPlusCurrent}
-          city={currentPlace.city.name}
+          city={offerPage.city.name}
           place='offer'
+          activeOfferId={offerPage.id}
         />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">
-          Other places in the neighborhood
+            Other places in the neighborhood
           </h2>
           <CitiesPlacesList
             className='near-places__list places__list'

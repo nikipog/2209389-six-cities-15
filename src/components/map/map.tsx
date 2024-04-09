@@ -3,13 +3,13 @@ import { ServerOffer } from '../../types/offer';
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/use-map';
 import { CITIES, CityName, URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
-import { useAppSelector } from '../../hooks/store';
-import { offersSelectors } from '../../store/slices/offers';
 
 type MapProps = {
   city: CityName;
   offers: ServerOffer[];
   place?: 'cities' | 'offer';
+  activeOfferId?: string;
+  hoveredOfferId?: string;
 };
 
 const defaultCustomIcon = new Icon({
@@ -28,11 +28,11 @@ function Map({
   city,
   offers,
   place = 'cities',
+  activeOfferId,
+  hoveredOfferId
 }: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
-
-  const activeId = useAppSelector(offersSelectors.activeId);
 
   const location = CITIES.find((item) => item.name === city)!.location;
 
@@ -52,7 +52,7 @@ function Map({
 
         marker
           .setIcon(
-            offer.id === activeId
+            offer.id === activeOfferId || offer.id === hoveredOfferId
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -64,7 +64,7 @@ function Map({
         currentLayer.clearLayers();
       };
     }
-  }, [map, offers, activeId]);
+  }, [map, offers, activeOfferId, hoveredOfferId]);
 
   useEffect(() => {
     if (map) {

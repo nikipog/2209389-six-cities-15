@@ -11,7 +11,7 @@ function NotFoundPage () : JSX.Element {
       </Helmet>
      404 Not Found
       <nav>
-        <Link to={AppRoute.Login}>Click to login</Link>
+        <Link to={AppRoute.Main}>Click here</Link>
       </nav>
     </div>
   );

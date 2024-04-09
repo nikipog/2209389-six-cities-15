@@ -4,7 +4,7 @@ export type TReviewerType = {
   isPro?: boolean;
 }
 
-export type TReviewType = {
+export type Review = {
   id: string;
   date: string;
   user: TReviewerType;
