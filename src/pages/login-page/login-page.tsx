@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useActionCreators } from '../../hooks/store';
 import {userActions } from '../../store/slices/user';
+import { toast } from 'react-toastify';
 
 
 type HTMLLoginForm = HTMLFormElement & {
@@ -12,6 +13,8 @@ type HTMLLoginForm = HTMLFormElement & {
 };
 
 type ChangeHandler = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+
+const PASSWORD_REGEXP = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,}$/;
 
 function LoginPage() : JSX.Element {
   const [formData, setFormData] = useState({
@@ -31,9 +34,18 @@ function LoginPage() : JSX.Element {
     });
   };
 
+  function validatePassword(password : string) : boolean {
+    return PASSWORD_REGEXP.test(password);
+  }
+
   // в обработичке сабмита вызываем логин и передаем в него стейт
   function handleSubmit(event: FormEvent<HTMLLoginForm>) {
     event.preventDefault();
+    if (!validatePassword(formData.password)) {
+      // Вывести сообщение об ошибке
+      toast.error('Пароль должен содержать минимум одну цифру и одну латинскую букву');
+      return;
+    }
     login(formData);
   }
   return (
