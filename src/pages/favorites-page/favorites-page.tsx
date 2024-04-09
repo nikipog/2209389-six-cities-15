@@ -9,6 +9,5 @@ export default function FavoritesPage(): JSX.Element {
   return (
     <FavoritesList offers={favorites} />
   );
-  //TODO добавить кейс, когда избранных нет
 }
 

@@ -78,9 +78,7 @@ function App(): JSX.Element {
             <Route
               path={AppRoute.Offer}
               element={(
-                <ProtectedRoute>
-                  <OfferPage />
-                </ProtectedRoute>
+                <OfferPage />
               )}
             />
           </Route>
