@@ -8,7 +8,7 @@ import { userSelector } from '../store/slices/user';
 function useFavoriteCount () {
   const status = useAppSelector(favoritesSelector.favoriteStatus);
   const count = useAppSelector(favoritesSelector.favorites).length;
-  const userStatus = useAppSelector(userSelector.userStatus)
+  const userStatus = useAppSelector(userSelector.userStatus);
   const { fetchFavorites } = useActionCreators(favoritesActions);
 
   useEffect(() => {
