@@ -2,10 +2,11 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAuth } from '../../hooks/user-authorization';
 import { getLayoutState } from './utils';
-import { useActionCreators, useAppSelector } from '../../hooks/store';
+import { useAppSelector } from '../../hooks/store';
 import { userActions, userSelector } from '../../store/slices/user';
 import { useFavoriteCount } from '../../hooks/use-favorite-count';
-
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '../../types/store';
 
 export default function Layout () {
   const {pathname} = useLocation();
@@ -13,7 +14,8 @@ export default function Layout () {
   const authorizationStatus = useAuth();
 
   const user = useAppSelector(userSelector.userInfo);
-  const {logout} = useActionCreators(userActions);
+  const dispatch = useDispatch<AppDispatch>();
+
   const favoriteCount = useFavoriteCount();
   return (
     <div className={`page${rootClassName}`}>
@@ -55,7 +57,7 @@ export default function Layout () {
                           <Link
                             className="header__nav-link"
                             onClick={() => {
-                              logout();
+                              dispatch(userActions.logout());
                             }}
                             to='#'
                           >

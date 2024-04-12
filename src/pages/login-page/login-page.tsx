@@ -1,11 +1,11 @@
 import { Helmet } from 'react-helmet-async';
+import { useDispatch } from 'react-redux';
 import { FormEvent, ReactEventHandler, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { useActionCreators } from '../../hooks/store';
 import {userActions } from '../../store/slices/user';
 import { toast } from 'react-toastify';
-
+import type { AppDispatch } from '../../types/store';
 
 type HTMLLoginForm = HTMLFormElement & {
   email: HTMLInputElement;
@@ -22,8 +22,7 @@ function LoginPage() : JSX.Element {
     password: '',
   });
 
-  // достаем асинхронный хук - логин
-  const { login } = useActionCreators(userActions);
+  const dispatch = useDispatch<AppDispatch>();
 
   // собираем данные с формы с помощью контролируемого компонента
   const handleChange: ChangeHandler = (evt) => {
@@ -46,7 +45,7 @@ function LoginPage() : JSX.Element {
       toast.error('Пароль должен содержать минимум одну цифру и одну латинскую букву');
       return;
     }
-    login(formData);
+    dispatch(userActions.login(formData));
   }
   return (
     <main className="page__main page__main--login">

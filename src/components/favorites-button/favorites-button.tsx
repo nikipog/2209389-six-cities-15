@@ -1,10 +1,12 @@
 import classNames from 'classnames';
-import { useActionCreators, useAppSelector } from '../../hooks/store';
+import { useDispatch } from 'react-redux';
 import { favoritesActions } from '../../store/slices/favorites';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/user-authorization';
 import { AppRoute } from '../../const';
 import { toast } from 'react-toastify';
+import type { AppDispatch } from '../../types/store';
+import { useAppSelector } from '../../hooks/store';
 
 
 interface FavoriteButtonProps {
@@ -18,10 +20,10 @@ const enum Default {
 }
 const TOASTIFY_ERROR_MESSAGE = 'Не удалось выполнить действие. Попробуйте перезагрузить страницу';
 
-export function FavoriteButton({ bemBlock = 'place-card', offerId, width = 18 }: FavoriteButtonProps) {
+export function FavoriteButton({ bemBlock = 'place-card', offerId, width = 18, }: FavoriteButtonProps) {
+  const dispatch = useDispatch<AppDispatch>();
   const isFavorite = useAppSelector((state) =>
-    state.favorites.items.some((offer) => offer.id === offerId && offer.isFavorite)
-  );
+    state.favorites.items.some((offer) => offer.id === offerId && offer.isFavorite));
   const favoriteLabel = `${isFavorite ? 'In' : 'To'} bookmarks`;
   const buttonClass = `${bemBlock}__bookmark-button`;
   const favoriteClass = classNames(
@@ -35,7 +37,7 @@ export function FavoriteButton({ bemBlock = 'place-card', offerId, width = 18 }:
   const authorizationStatus = useAuth();
   const navigate = useNavigate();
 
-  const { changeFavorite, fetchFavorites } = useActionCreators(favoritesActions);
+
   function handleClick() {
     // Обертываем вызов асинхронной функции в синхронную
     (async () => {
@@ -44,12 +46,11 @@ export function FavoriteButton({ bemBlock = 'place-card', offerId, width = 18 }:
           navigate(AppRoute.Login);
           return;
         }
-        await changeFavorite({
+        await dispatch(favoritesActions.changeFavorite({
           offerId,
           status: Number(!isFavorite)
-        }).unwrap();
-
-        fetchFavorites(); // Перезапрос данных с сервера
+        })).unwrap();
+        dispatch(favoritesActions.fetchFavorites());
       } catch (error) {
         toast.error(TOASTIFY_ERROR_MESSAGE);
       }

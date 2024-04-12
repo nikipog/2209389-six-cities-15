@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -12,9 +13,10 @@ import CitiesPlacesList from '../../components/cities-places-list/cities-places-
 import { FavoriteButton } from '../../components/favorites-button/favorites-button';
 import { reviewActions, reviewSelector } from '../../store/slices/reviews';
 import { offerActions, offerSelector } from '../../store/slices/offer';
-import { useAppSelector, useActionCreators } from '../../hooks/store';
+import { useAppSelector } from '../../hooks/store';
 import { RATING_WIDTH_STEP, RequestStatus } from '../../const';
 import { useAuth } from '../../hooks/user-authorization';
+import type { AppDispatch } from '../../types/store';
 
 const MIN_BEDROOMS_COUNT = 1;
 const MIN_ADULTS_COUNT = 1;
@@ -26,11 +28,7 @@ function OfferPage(): JSX.Element {
   const status = useAppSelector(offerSelector.offerStatus);
   const nearbyOffers = useAppSelector(offerSelector.nearbyOffers);
   const reviews = useAppSelector(reviewSelector.reviews);
-  //достаем асинхронные экшены которые делают запросы на комменты, оффер и список
-  //предложений рядом
-  const { fetchNearBy, fetchOffer } = useActionCreators(offerActions);
-  const { fetchComments } = useActionCreators(reviewActions);
-
+  const dispatch = useDispatch<AppDispatch>();
   // из УРЛа достаем айдишник и с его помощью отправляем запрос на сервер
   const { id } = useParams<{ id: string }>();
 
@@ -39,12 +37,12 @@ function OfferPage(): JSX.Element {
   useEffect(() => {
     //promise all - для одновременной отработки промисов
     Promise.all([
-      fetchOffer(id as string),
-      fetchNearBy(id as string),
-      fetchComments(id as string)]);
+      dispatch(offerActions.fetchOffer(id as string)),
+      dispatch(offerActions.fetchNearBy(id as string)),
+      dispatch(reviewActions.fetchComments(id as string))]);
   },
   //в зависимостях сами методы и идентификатор полученный из useParams
-  [fetchOffer, fetchNearBy, fetchComments, id]
+  [dispatch, id]
   );
 
   if (status === RequestStatus.Loading) {

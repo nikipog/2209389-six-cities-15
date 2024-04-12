@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useActionCreators } from '../../hooks/store';
 import MainPage from '../../pages/main-page/main-page';
 import LoginPage from '../../pages/login-page/login-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
@@ -12,9 +12,9 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import { AppRoute, CITIES, DEFAULT_CITY } from '../../const';
 import Layout from '../layout/layout';
 import { offersActions } from '../../store/slices/offers';
-import { getToken } from '../../services/token';
 import { userActions } from '../../store/slices/user';
 import ProtectedRoute from '../private-route/protected-route';
+import type { AppDispatch } from '../../types/store';
 
 
 //импорты из библиотек желательно расположить в самом начале
@@ -24,26 +24,19 @@ const TOASTIFY_ERROR_MESSAGE = 'Не удалось загрузить пред�
 
 function App(): JSX.Element {
 
-  const { fetchAllOffers } = useActionCreators(offersActions);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const { checkAuth } = useActionCreators(userActions);
 
   useEffect(() => {
-    fetchAllOffers()
+    dispatch(userActions.checkAuth());
+    dispatch(offersActions.fetchAllOffers())
       .unwrap()
       .catch(() => {
         toast.error(TOASTIFY_ERROR_MESSAGE);
       });
 
-  }, [fetchAllOffers]);
+  }, [dispatch]);
 
-  // сохраняем токен и проверяем его, чтобы не требовать повторной авторизации
-  const token = getToken();
-  useEffect(() => {
-    if (token) {
-      checkAuth();
-    }
-  }, [token, checkAuth]);
 
   return (
     <HelmetProvider>

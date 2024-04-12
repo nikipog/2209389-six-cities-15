@@ -2,18 +2,21 @@ import { useEffect } from 'react';
 
 import { RequestStatus } from '../const';
 import { favoritesActions, favoritesSelector } from '../store/slices/favorites';
-import { useActionCreators, useAppSelector } from './store';
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '../types/store';
+import { useAppSelector } from './store';
+
 
 function useFavoriteCount () {
+  const dispatch = useDispatch<AppDispatch>();
   const status = useAppSelector(favoritesSelector.favoriteStatus);
   const count = useAppSelector(favoritesSelector.favorites).length;
-  const { fetchFavorites } = useActionCreators(favoritesActions);
 
   useEffect(() => {
     if (status === RequestStatus.Idle) {
-      fetchFavorites();
+      dispatch(favoritesActions.fetchFavorites());
     }
-  }, [status, fetchFavorites]);
+  }, [status, dispatch]);
 
   return count;
 }

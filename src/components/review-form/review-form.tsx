@@ -1,9 +1,11 @@
+import { useDispatch } from 'react-redux';
 import { FormEvent, Fragment, ReactEventHandler, useState } from 'react';
 import { toast } from 'react-toastify';
 import { RATINGS, RequestStatus } from '../../const';
-import { useActionCreators, useAppSelector } from '../../hooks/store';
+import { useAppSelector } from '../../hooks/store';
 import { commentsThunk } from '../../store/thunks/comments';
 import { reviewSelector } from '../../store/slices/reviews';
+import type { AppDispatch } from '../../types/store';
 
 const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 300;
@@ -22,7 +24,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
     const { name, value } = evt.currentTarget;
     setReview({ ...review, [name]: value });
   };
-  const { postComment } = useActionCreators(commentsThunk);
+  const dispatch = useDispatch<AppDispatch>();
   const reviewStatus = useAppSelector(reviewSelector.reviewsStatus);
   const isLoading = reviewStatus === RequestStatus.Loading;
   const reviewIsInvalid = review.review.length < MIN_REVIEW_LENGTH || review.review.length > MAX_REVIEW_LENGTH || review.rating === 0;
@@ -30,13 +32,13 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
 
     event.preventDefault();
     // Использую offerId из пропсов и состояние вашей формы для отправки комментария
-    postComment({
+    dispatch(commentsThunk.postComment({
       offerId,
       body: {
         comment: review.review,
         rating: Number(review.rating),
       }
-    }).unwrap() // использование unwrap() для обработки Promise
+    })).unwrap() // использование unwrap() для обработки Promise
       .then(() => {
         setReview({ rating: 0, review: '' }); // сброс формы
       })
