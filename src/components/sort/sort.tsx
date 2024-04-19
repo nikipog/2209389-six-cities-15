@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import { useBoolean } from '../../hooks/boolean';
 import { SORT_OPTIONS, SortOption } from './const';
 import classNames from 'classnames';
@@ -8,7 +8,7 @@ type SortProps = {
   setter: (option: SortOption) => void;
 };
 
-function Sort({ current, setter }: SortProps): JSX.Element {
+const Sort = memo(({ current, setter }: SortProps): JSX.Element => {
   const { isOn, off, toggle } = useBoolean(false);
 
   useEffect(() => {
@@ -59,6 +59,9 @@ function Sort({ current, setter }: SortProps): JSX.Element {
       </ul>
     </form>
   );
-}
+});
+
+
+Sort.displayName = 'Sort';
 
 export default Sort;

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/user-authorization';
 import { AppRoute } from '../../const';
 import { toast } from 'react-toastify';
-
+import { memo } from 'react';
 
 interface FavoriteButtonProps {
   bemBlock?: 'offer' | 'place-card';
@@ -18,7 +18,7 @@ const enum Default {
 }
 const TOASTIFY_ERROR_MESSAGE = 'Не удалось выполнить действие. Попробуйте перезагрузить страницу';
 
-export function FavoriteButton({ bemBlock = 'place-card', offerId, width = 18 }: FavoriteButtonProps) {
+const FavoriteButton = memo(({ bemBlock = 'place-card', offerId, width = 18 }: FavoriteButtonProps) => {
   const isFavorite = useAppSelector((state) =>
     state.favorites.items.some((offer) => offer.id === offerId && offer.isFavorite)
   );
@@ -64,4 +64,8 @@ export function FavoriteButton({ bemBlock = 'place-card', offerId, width = 18 }:
       <span className="visually-hidden">{favoriteLabel}</span>
     </button>
   );
-}
+});
+
+FavoriteButton.displayName = 'FavoriteButton';
+
+export { FavoriteButton };
